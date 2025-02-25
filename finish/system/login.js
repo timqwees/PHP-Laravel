@@ -85,7 +85,7 @@ document.querySelector('[data-log-forms-check]').addEventListener('input', funct
     const passwordValue = passwordInput.value;
 
     // Проверка существования пользователя
-    fetch(`../system/check.php?action=username&username=${encodeURIComponent(usernameValue)}`)
+    fetch(`/../system/check.php?action=username&username=${encodeURIComponent(usernameValue)}`)
         .then(response => response.json())
         .then(data => {
             if (data.exists) {
@@ -112,7 +112,7 @@ document.querySelector('[data-log-forms-check]').addEventListener('input', funct
             }
 
             // Проверка пароля
-            fetch(`../system/check.php?action=password&username=${encodeURIComponent(usernameValue)}`)
+            fetch(`/../system/check.php?action=password&username=${encodeURIComponent(usernameValue)}`)
                 .then(response => response.json())
                 .then(data => {
                     if (!data.exists) {

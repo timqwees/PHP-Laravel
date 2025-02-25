@@ -2177,7 +2177,7 @@ $user = currentUser(); ?>
               </div>
 
               <input type="hidden" name="icon" id="icon" data-icon>
-              <input type='hidden' id="user" value="timqwees">
+              <input type='hidden' id="user" value="<? echo $user['username'] ?>">
           </div>
 
           <textarea id="message" name=" message" class="form-input" placeholder="Ваше сообщение" required
@@ -2342,6 +2342,8 @@ $user = currentUser(); ?>
       });
     }
 
+    var chat = document.querySelector('[data-chat]');
+
     document.getElementById('send').onclick = function () {
       const icon = document.getElementById('icon').value;
       const user = document.getElementById('user').value;
@@ -2360,6 +2362,7 @@ $user = currentUser(); ?>
       }).then(() => {
         document.getElementById('message').value = ''; // Очистить поле ввода
         loadMessages(); // Загрузить сообщения после отправки
+        chat.scrollTop = chat.scrollHeight; // Прокрутить вниз при отправке
       });
     };
 
@@ -2367,7 +2370,6 @@ $user = currentUser(); ?>
       fetch('system/chat.php')
         .then(response => response.json())
         .then(data => {
-          const chat = document.querySelector('[data-chat]');
           chat.innerHTML = '';
           data.forEach(msg => {
             var user = document.getElementById('user').value;
@@ -2395,7 +2397,6 @@ $user = currentUser(); ?>
               </div>
             </div>`);
           });
-          chat.scrollTop = chat.scrollHeight; // Прокрутить вниз
         });
     }
 
