@@ -2208,7 +2208,7 @@ $user = currentUser(); ?>
     </div>
   </main>
 
-  <script>
+  <script defer>
     'use strict';
 
     //Opening or closing side bar
