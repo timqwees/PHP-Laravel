@@ -24,7 +24,7 @@ document.querySelector('[data-form]').addEventListener('input', (event) => {
         errorPassword.innerHTML = '';
 
     // Проверка ввода группы
-    groupInput.value.length < 1 ?
+    groupInput.value.length < 3 ?
         (errorGroup.innerHTML = '<p class="error">Впишите номер группы без [241 -]</p>', isValid = false) :
         errorGroup.innerHTML = '';
 

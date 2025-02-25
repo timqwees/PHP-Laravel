@@ -1,8 +1,6 @@
-<?php
-require_once __DIR__ . '/system/helpers.php';
+<?php require_once __DIR__ . '/system/helpers.php';
 checkAuth();
-$user = currentUser();
-?>
+$user = currentUser(); ?>
 <!DOCTYPE html>
 <html data-wf-domain="timqwees.technology" data-wf-page="645cebca0c6ed9d1ed21ecdb"
   data-wf-site="637359c81e22b715cec245ad" lang="ru">
@@ -18,7 +16,6 @@ $user = currentUser();
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <link defer="defer" rel="shortcut icon" href="src/timqwees/favicon.ico" type="image/x-icon">
   <style>
-    /* Copyright (c) 2025 by Leonam Silva de Souza (https://codepen.io/leonam-silva-de-souza/pen/vYowKqP) */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
     :root {
@@ -747,7 +744,7 @@ $user = currentUser();
       filter: grayscale(0);
     }
 
-    /*RESUME*/
+    /*chat*/
 
     .article-title {
       margin-bottom: 30px;
@@ -858,7 +855,7 @@ $user = currentUser();
       border-radius: inherit;
     }
 
-    /*PORTFOLIO*/
+    /*comment*/
 
     .filter-list {
       display: none;
@@ -1129,7 +1126,17 @@ $user = currentUser();
       border-radius: 16px;
       margin-bottom: 30px;
       border: 1px solid var(--jet);
-      overflow: hidden;
+      overflow-y: scroll;
+    }
+
+    .mapbox::-webkit-scrollbar {
+      width: 10px;
+      background: rgba(44, 44, 44, 0.374);
+    }
+
+    .mapbox::-webkit-scrollbar-thumb {
+      background-color: rgba(67, 64, 64, 0.861);
+      border-radius: 15px;
     }
 
     .mapbox figure {
@@ -1793,6 +1800,100 @@ $user = currentUser();
         max-width: 700px;
       }
     }
+
+    .chat_tag {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .chat_tag_my {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+    .message {
+      position: relative;
+      width: auto;
+      border-radius: 15px;
+      border: 1px solid var(--jet);
+      overflow: hidden;
+      display: flex;
+      padding: .5rem;
+      color: white;
+      flex-direction: column;
+    }
+
+    .content {
+      margin-block: auto;
+    }
+
+    .user {
+      color: var(--vegas-gold);
+      font-size: 12px;
+    }
+
+    .msg {
+      color: var(--light-gray);
+      font-weight: var(--fw300);
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .content {
+      padding: 1rem;
+      padding-left: 0;
+    }
+
+    .icon-selector {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      border: 1px solid var(--vegas-gold);
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    .icon-option {
+      width: 60px;
+      height: 60px;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      margin: 5px;
+      cursor: pointer;
+      transition: border 0.3s;
+    }
+
+    .icon-option.selected {
+      border: 1px solid #007bff;
+    }
+
+    .icon-option img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    .avatar_chat img {
+      width: 75px;
+    }
+
+    .msg_icon {
+      width: revert;
+      color: #ffd49d;
+      font-size: 1.2rem;
+      padding-block: .5rem;
+      padding-inline: 1rem;
+      display: flex;
+      border-radius: 15px;
+      margin-right: auto;
+      margin-block: auto;
+      border: solid 1px bisque;
+    }
   </style>
 </head>
 
@@ -1801,11 +1902,13 @@ $user = currentUser();
     <aside class="sidebar " data-sidebar>
       <div class="sidebar-info">
         <figure class="avatar-box">
-          <img src="https://i.postimg.cc/JzBWVhW4/my-avatar.png" alt="avatar" width="80">
+          <img src="https://i.postimg.cc/zGDHfn3G/avatar-1.png" alt="avatar" width="80">
         </figure>
 
         <div class="info-content">
-          <h1 class="name" title="Richard Hanrick"><? echo $user['username'] ?></h1>
+          <h1 class="name" title="Richard Hanrick">
+            <? echo $user['username'] ?>
+          </h1>
           <p class="title">Пользователь</p>
         </div>
 
@@ -1827,7 +1930,9 @@ $user = currentUser();
             <div class="contact-info">
               <p class="contact-title">Группа</p>
 
-              <a class=" contact-link"><? echo $user['group'] ?></a>
+              <a class=" contact-link">
+                <? echo $user['group'] ?>
+              </a>
             </div>
           </li>
 
@@ -1839,7 +1944,9 @@ $user = currentUser();
             <div class="contact-info">
               <p class="contact-title">Password</p>
 
-              <a class=" contact-link"><? echo pass_back($user['pass']) ?></a>
+              <a class=" contact-link">
+                <? echo pass_back($user['pass']) ?>
+              </a>
             </div>
           </li>
 
@@ -1871,13 +1978,13 @@ $user = currentUser();
         <div class="separator"></div>
 
         <ul class="social-list">
-          <li class="social-item"><a href="../vk.com/mx999am99" class="social-link"><ion-icon
+          <li class="social-item"><a href="https://vk.com/mx999am99" class="social-link"><ion-icon
                 name="logo-vk"></ion-icon></a>
           </li>
-          <li class="social-item"><a href="../t.me/timqwees" class="social-link"><ion-icon
+          <li class="social-item"><a href="https://t.me/timqwees" class="social-link"><ion-icon
                 name="logo-telegram"></ion-icon></a>
           </li>
-          <li class="social-item"><a href="../wa.me/79013334763" class="social-link"><ion-icon
+          <li class="social-item"><a href="https://wa.me/79013334763" class="social-link"><ion-icon
                 name="logo-whatsapp"></ion-icon></a>
           </li>
         </ul>
@@ -1888,29 +1995,27 @@ $user = currentUser();
       <nav class="navbar">
         <ul class="navbar-list">
           <li class="navbar-item"><button class="navbar-link active" data-nav-link>About</button></li>
-          <li class="navbar-item"><button class="navbar-link" data-nav-link>Resume</button></li>
-          <li class="navbar-item"><button class="navbar-link" data-nav-link>Portfolio</button></li>
-          <li class="navbar-item"><button class="navbar-link" data-nav-link>Blog</button></li>
-          <li class="navbar-item"><button class="navbar-link" data-nav-link>Contact</button></li>
+          <li class="navbar-item"><button class="navbar-link" data-nav-link>chat</button></li>
+          <li class="navbar-item"><button class="navbar-link" data-nav-link>comment</button></li>
+          <!-- <li class="navbar-item"><button class="navbar-link" data-nav-link>Blog</button></li>
+          <li class="navbar-item"><button class="navbar-link" data-nav-link>Contact</button></li> -->
         </ul>
       </nav>
 
       <article class="about active" data-page="about">
         <header>
-          <h2 class="h2 article-title">About me</h2>
+          <h2 class="h2 article-title">About / Основное</h2>
         </header>
 
         <section class="about-text">
-          <p>I'm Creative Director and UI/UX Designer from Sydney, Australia, working in web development and print
-            media. I enjoy turning complex problems into simple, beautiful and intuitive designs.</p>
-          <p>My job is to build your website so that it is functional and user-friendly but at the same time attractive.
-            Moreover, I add personal touch to your product and make sure that is eye-catching and easy to use. My aim is
-            to bring across your message and identity in the most creative way. I created web design for many famous
-            brand companies.</p>
+          <p>Это платформа от TimQwees Factory - ту предоставлена краткая информация о разработке вуза, а так же возмо
+            жность по написанию коментариев и онлайн чата со всеми зарагестрированных пользователей.</p>
+          <p>Данная работа была сделана в качестве завершеня итогового тестирования по программе Wrb-develop серверно
+            й части для 1 курса семестра: разработчик Nersisyan Artem || TimQwees (Factory)</p>
         </section>
 
         <section class="service">
-          <h3 class="h3 service-title">What I'm doing</h3>
+          <h3 class="h3 service-title">Общие навыки:</h3>
 
           <ul class="service-list">
             <li class="service-item">
@@ -1919,8 +2024,8 @@ $user = currentUser();
               </div>
 
               <div class="service-content-box">
-                <h4 class="h4 service-item-title">Web Design</h4>
-                <p class="service-item-text">The most modern and high-quality design made at a professional level.</p>
+                <h4 class="h4 service-item-title">Web-Дизайн</h4>
+                <p class="service-item-text">Работа с Figma / по реализации данной платфоры или иных сайтов.</p>
               </div>
             </li>
 
@@ -1931,51 +2036,29 @@ $user = currentUser();
 
               <div class="service-content-box">
                 <h4 class="h4 service-item-title">Web development</h4>
-                <p class="service-item-text">High-quality development of sites at the professional level.</p>
-              </div>
-            </li>
-
-            <li class="service-item">
-              <div class="service-icon-box">
-                <img src="https://i.postimg.cc/xjLdzYxZ/icon-app.png" alt="icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Mobile apps</h4>
-                <p class="service-item-text">Professional development of applications for iOS and Android.</p>
-              </div>
-            </li>
-
-            <li class="service-item">
-              <div class="service-icon-box">
-                <img src="https://i.postimg.cc/0NL8zHpx/icon-photo.png" alt="icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Photography</h4>
-                <p class="service-item-text">I make high-quality photos of any category at a professional level.</p>
+                <p class="service-item-text">Веб-разработка с использованием базовый текстовых разметов HTML/CSS ||
+                  SCSS, а так же сервернй части: PHP/JS/JQUARY
+                </p>
               </div>
             </li>
           </ul>
         </section>
 
         <section class="testimonials">
-          <h3 class="h3 testimonials-title">Testimonials</h3>
+          <h3 class="h3 testimonials-title">Основное:</h3>
 
           <ul class="testimonials-list has-scrollbar">
             <li class="testimonials-item">
               <div class="content-card" data-testimonials-item>
                 <figure class="testimonials-avatar-box">
-                  <img src="https://i.postimg.cc/zGDHfn3G/avatar-1.png" alt="avatar" data-testimonials-avatar
+                  <img src="https://i.postimg.cc/JzBWVhW4/my-avatar.png" alt="avatar" data-testimonials-avatar
                     width="60">
                 </figure>
 
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Daniel Lewis</h4>
+                <h4 class="h4 testimonials-item-title" data-testimonials-title>Нерсисян Артем</h4>
 
                 <div class="testimonials-text" data-testimonials-text>
-                  <p>Richard was hired to create a corporate identity. It's modern, clean and with a beautiful design
-                    that got a lot of praises from colleagues and visitors. We were very pleased with the work done. He
-                    has a lot of experience and is very concerned about the needs of client.</p>
+                  <p>Основной разработчик данной платформы - студент московского политеха 1 курса</p>
                 </div>
               </div>
             </li>
@@ -1987,45 +2070,10 @@ $user = currentUser();
                     width="60">
                 </figure>
 
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Jessica Miller</h4>
+                <h4 class="h4 testimonials-item-title" data-testimonials-title>Ольга Вячеславовна</h4>
 
                 <div class="testimonials-text" data-testimonials-text>
-                  <p>Working with Richard has been an absolute pleasure. I was impressed with his attention to detail,
-                    his web design skills and his professional approach to our timelines and processes.</p>
-                </div>
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-                <figure class="testimonials-avatar-box">
-                  <img src="https://i.postimg.cc/fRFWhX9F/avatar-3.png" alt="avatar" data-testimonials-avatar
-                    width="60">
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Emily Evans</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>I couldn't be happier with the website that Richard created for us. His attention to detail and
-                    creativity is unmatched. Our clients frequently compliment the design, and it has significantly
-                    improved our brand image.</p>
-                </div>
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-                <figure class="testimonials-avatar-box">
-                  <img src="https://i.postimg.cc/zXv1Xv81/avatar-4.png" alt="avatar" data-testimonials-avatar
-                    width="60">
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Henry Williams</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>I was overwhelmed with the thought of redesigning my online store, but Richard made the process
-                    seamless. The site is not only visually appealing but also optimized for conversions. I've seen a
-                    50% increase in traffic since the launch!</p>
+                  <p>Предподователь московского политеха по курсу Веб-разработка нсерверной части.</p>
                 </div>
               </div>
             </li>
@@ -2051,7 +2099,8 @@ $user = currentUser();
               <time datetime="2023-06-14">14 June, 2023</time>
 
               <div class="modal-text" data-modal-text>
-                <p>Richard was hired to create a corporate identity. It's modern, clean and with a beautiful design that
+                <p>Richard was hired to create a corporate identity. It's modern, clean and with a beautiful design
+                  that
                   got a lot of praises from colleagues and visitors. We were very pleased with the work done. He has a
                   lot of experience and is very concerned about the needs of client.</p>
               </div>
@@ -2059,498 +2108,103 @@ $user = currentUser();
           </section>
         </div>
 
-        <section class="clients">
-          <h3 class="h3 clients-title">Clients</h3>
-
-          <ul class="clients-list has-scrollbar">
-            <li class="clients-item">
-              <a href="#"><img src="https://i.postimg.cc/YqfKyG66/logo-1-color.png" alt="logo"></a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#"><img src="https://i.postimg.cc/fWm6JtgG/logo-2-color.png" alt="logo"></a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#"><img src="https://i.postimg.cc/Bb07xpwd/logo-3-color.png" alt="logo"></a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#"><img src="https://i.postimg.cc/hv1yMmkh/logo-4-color.png" alt="logo"></a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#"><img src="https://i.postimg.cc/ry1P86Dc/logo-5-color.png" alt="logo"></a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#"><img src="https://i.postimg.cc/SsWDN8NV/logo-6-color.png" alt="logo"></a>
-            </li>
-          </ul>
-        </section>
-
       </article>
 
-      <article class="resume " data-page="resume">
+      <article class="chat " data-page="chat">
         <header>
-          <h2 class="h2 article-title">Resume</h2>
+          <h2 class="h2 article-title">chat</h2>
         </header>
 
         <section class="timeline">
           <div class="title-wrapper">
             <div class="icon-box"><ion-icon name="book-outline"></ion-icon></div>
 
-            <h3 class="h3">Education</h3>
+            <h3 class="h3">Правила</h3>
           </div>
 
           <ol class="timeline-list">
             <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">University school of the arts</h4>
-              <span>2008 - 2010</span>
-              <p class="timeline-text">There I learnt a wide range of topics that are essential to understanding both
-                the theory and practical aspects of computing. This involves programming fundamentals, computer
-                architecture, operating systems, databases, software engineering, problem solving, collaboration and
-                communication soft skills.</p>
+              <h4 class="h4 timeline-item-title">Правила общения</h4>
+              <span>Основные правила</span>
+              <p class="timeline-text">В чате запрещается использовать ненормативную лексику, рекламировать сторонние
+                ресурсы, а также обсуждать личные конфликты. Общайтесь уважительно и поддерживайте позитивную
+                атмосферу.
+              </p>
             </li>
 
             <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">New York Academy of Art</h4>
-              <span>2006 - 2007</span>
-              <p class="timeline-text">I chose my master degree in technology. There I deepened my knowledge, enhanced
-                my skills in the area and learnt how to increase my career prospects in a competitive job market.</p>
-            </li>
-
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">High School of Art and Design</h4>
-              <span>2003 - 2005</span>
-              <p class="timeline-text">There I learnt foundational courses and computer sciences fundamentals. In the
-                institution, I chose my specialization in web-development that involves front-end and back-end
-                technologies, user interface designs and content management systems.</p>
+              <h4 class="h4 timeline-item-title">Система серверной разработки</h4>
+              <span>Систематика платформы</span>
+              <p class="timeline-text">Система представляет собой мощную архитектуру для серверной разработки,
+                созданную
+                с использованием современных технологий, таких как PHP и JS. Основная цель системы — обеспечить высоко
+                скоростную систему передачи данные бежду базой данных и js системой с использованием fetch запроса, а
+                так же реализовать онлайн чат платформу по данной архиктетурой по программе серверной разработки</p>
             </li>
           </ol>
         </section>
 
-        <section class="timeline">
-          <div class="title-wrapper">
-            <div class="icon-box"><ion-icon name="book-outline"></ion-icon></div>
-
-            <h3 class="h3">Experience</h3>
-          </div>
-
-          <ol class="timeline-list">
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Creative director</h4>
-              <span>2015 - Present</span>
-              <p class="timeline-text">I can develop and oversee creative concepts for projects and campaigns managing a
-                team of designers, writers, and other creative professionals.</p>
-            </li>
-
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Art director</h4>
-              <span>2013 - 2015</span>
-              <p class="timeline-text">I create and develop visual concepts that align with the project's goals and
-                objectives, supervising the design process and managing timelines and budgets for design projects.</p>
-            </li>
-
-            <li class="timeline-item">
-              <h4 class="h4 timeline-item-title">Web designer</h4>
-              <span>2010 - 2013</span>
-              <p class="timeline-text">I create logos, color schemes and typography for a brand's identity. Also I
-                develop graphics for websites, social media and digital ads with applications that enhance user
-                experience.</p>
-            </li>
-          </ol>
-        </section>
-
-        <section class="skill">
-          <h3 class="h3 skills-title">My Skills</h3>
-
-          <ul class="skills-list content-card">
-            <li class="skills-item">
-              <div class="title-wrapper">
-                <h5 class="h5">Web Design</h5>
-                <data value="80">80%</data>
-              </div>
-
-              <div class="skills-progress-bg">
-                <div class="skills-progress-fill" style="width: 80%;"></div>
-              </div>
-            </li>
-
-            <li class="skills-item">
-              <div class="title-wrapper">
-                <h5 class="h5">Graphic Design</h5>
-                <data value="70">70%</data>
-              </div>
-
-              <div class="skills-progress-bg">
-                <div class="skills-progress-fill" style="width: 70%;"></div>
-              </div>
-            </li>
-
-            <li class="skills-item">
-              <div class="title-wrapper">
-                <h5 class="h5">Branding</h5>
-                <data value="90">90%</data>
-              </div>
-
-              <div class="skills-progress-bg">
-                <div class="skills-progress-fill" style="width: 90%;"></div>
-              </div>
-            </li>
-
-            <li class="skills-item">
-              <div class="title-wrapper">
-                <h5 class="h5">WordPress</h5>
-                <data value="50">50%</data>
-              </div>
-
-              <div class="skills-progress-bg">
-                <div class="skills-progress-fill" style="width: 50%;"></div>
-              </div>
-            </li>
-          </ul>
-        </section>
-      </article>
-
-      <article class="portfolio " data-page="portfolio">
-        <header>
-          <h2 class="h2 article-title">Portfolio</h2>
-        </header>
-
-        <section class="projects">
-          <ul class="filter-list">
-            <li class="filter-item"><button class="active" data-filter-btn>All</button></li>
-            <li class="filter-item"><button data-filter-btn>Web Design</button></li>
-            <li class="filter-item"><button data-filter-btn>Applications</button></li>
-            <li class="filter-item"><button data-filter-btn>Web Development</button></li>
-          </ul>
-
-          <div class="filter-select-box">
-            <button class="filter-select " data-select>
-              <div class="select-value" data-select-value>Select Category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-            </button>
-
-            <ul class="select-list">
-              <li class="select-item"><button data-select-item>All</button></li>
-              <li class="select-item"><button data-select-item>Web Design</button></li>
-              <li class="select-item"><button data-select-item>Applications</button></li>
-              <li class="select-item"><button data-select-item>Web Development</button></li>
-            </ul>
-          </div>
-
-          <ul class="project-list">
-            <li class="project-item active" data-filter-item data-category="web development">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/qRHpHMyd/project-1.jpg" alt="finance" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Finance</h3>
-                <p class="project-category">Web Development</p>
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="web development">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/bNrcM2Wt/project-2.png" alt="orizon" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Orizon</h3>
-                <p class="project-category">Web Development</p>
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="web design">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/jSJVqYsq/project-3.jpg" alt="fundo" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Fundo</h3>
-                <p class="project-category">Web Design</p>
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="applications">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/dtpXxNGb/project-4.png" alt="brawlhalla" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Brawlhalla</h3>
-                <p class="project-category">Applications</p>
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="web design">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/43T0JKLw/project-5.png" alt="dsm." loading="lazy">
-                </figure>
-
-                <h3 class="project-title">DSM.</h3>
-                <p class="project-category">Web Design</p>
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="web design">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/qR1DX1kZ/project-6.png" alt="metaspark" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Metaspark</h3>
-                <p class="project-category">Web Design</p>
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="web development">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/Kj4q9tjc/project-7.png" alt="summary" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Summary</h3>
-                <p class="project-category">Web Development</p>
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="applications">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/rw2j4B1w/project-8.jpg" alt="task manager" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Task Manager</h3>
-                <p class="project-category">Applications</p>
-              </a>
-            </li>
-
-            <li class="project-item active" data-filter-item data-category="web development">
-              <a href="#">
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://i.postimg.cc/7LxNsSQv/project-9.png" alt="arrival" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Arrival</h3>
-                <p class="project-category">Web Development</p>
-              </a>
-            </li>
-          </ul>
-        </section>
-      </article>
-
-      <article class="blog " data-page="blog">
-        <header>
-          <h2 class="h2 article-title">Blog</h2>
-        </header>
-
-        <section class="blog-posts">
-          <ul class="blog-posts-list">
-            <li class="blog-post-item">
-              <a href="#">
-                <figure class="blog-banner-box">
-                  <img src="https://i.postimg.cc/DysCZrWs/blog-1.jpg" alt="Design conferences in 2024" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-                    <span class="dot"></span>
-                    <time datetime="2024-02-23">Feb 23, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Design conferences in 2024</h3>
-                  <p class="blog-text">In 2024, several exciting design conferences are set to take place, offering
-                    opportunities for professionals and enthusiasts to connect, learn, and share innovative ideas.</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-                <figure class="blog-banner-box">
-                  <img src="https://i.postimg.cc/QC7qFDMs/blog-2.jpg" alt="Best fonts every designer" loading="lazy">
-                </figure>
-
-
-                <div class="blog-content">
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-                    <span class="dot"></span>
-                    <time datetime="2024-01-29">Jan 29, 2024</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Best fonts every designer</h3>
-                  <p class="blog-text">When it comes to typography, choosing the right font is essential for effective
-                    design. In this article, I'll bring a brief overview of some of the best fonts that every designer
-                    should consider incorporating into their toolkit.</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-                <figure class="blog-banner-box">
-                  <img src="https://i.postimg.cc/W1T71QcL/blog-3.jpg" alt="Design digest #80" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-                    <span class="dot"></span>
-                    <time datetime="2023-12-20">Dec 20, 2023</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Design digest #80</h3>
-                  <p class="blog-text">Hello, my friends. In this Design Digest, I'll show you a curated collection of
-                    the latest trends, insights, and innovations in the design world. This edition highlights key themes
-                    and discussions that are shaping the future of design.</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-                <figure class="blog-banner-box">
-                  <img src="https://i.postimg.cc/2S0n8yxh/blog-4.jpg" alt="2023 UI interactions" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-                    <span class="dot"></span>
-                    <time datetime="2023-11-29">Nov 29, 2023</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">2023 UI interactions</h3>
-                  <p class="blog-text">As we move into 2024, 2023 was marked by the rapidly evolution of the landscape
-                    of UI interactions, driven by advancements in technology and user expectations. Dive with me in this
-                    text to see the main areas changed in this year.</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-                <figure class="blog-banner-box">
-                  <img src="https://i.postimg.cc/YCCmVkw9/blog-5.jpg" alt="The forgotten art of spacing" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-                    <span class="dot"></span>
-                    <time datetime="2023-11-12">Nov 12, 2023</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">The forgotten art of spacing</h3>
-                  <p class="blog-text">In the realm of design, spacing is often an overlooked yet crucial element that
-                    can significantly impact the overall aesthetic and functionality of a composition. This post will
-                    emphasize the importance of white space, margins, and padding in creating visually appealing and
-                    effective designs.</p>
-                </div>
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-                <figure class="blog-banner-box">
-                  <img src="https://i.postimg.cc/zBCBvP16/blog-6.jpg" alt="Design digest #79" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-                    <span class="dot"></span>
-                    <time datetime="2023-10-20">Oct 20, 2023</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Design digest #79</h3>
-                  <p class="blog-text">Hi, my friends. In this Design Digest I'll focus in the tools and resources that
-                    we use daily in our projects. Also, I'll include examples of software recommendations, online
-                    courses, and design communities that foster collaboration and learning.</p>
-                </div>
-              </a>
-            </li>
-          </ul>
-        </section>
-      </article>
-
-      <article class="contact " data-page="contact">
-        <header>
-          <h2 class="h2 article-title">Contact</h2>
-        </header>
-
-        <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199666.5651251294!2d-121.58334177520186!3d38.56165006739519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809ac672b28397f9%3A0x921f6aaa74197fdb!2sSacramento%2C%20CA%2C%20USA!5e0!3m2!1sen!2sbd!4v1647608789441!5m2!1sen!2sbd"
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
+        <section class="mapbox" data-chat>
         </section>
 
         <section class="contact-form">
-          <h3 class="h3 form-title">Contact Form</h3>
+          <h3 class="h3 form-title">Отправка сообщения</h3>
 
-          <form action="#" class="form" data-form>
-            <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-              <input type="email" name="email" class="form-input" placeholder="Email Address" required data-form-input>
-            </div>
+          <div class="input-wrapper">
+            </head>
 
-            <textarea name="message" class="form-input" placeholder="Your Message" required
-              data-form-input=""></textarea>
+            <body>
 
-            <button class="form-btn" type="submit" disabled data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
-          </form>
+              <div class="icon-selector" id="icon-selector">
+                <div class="icon-option" data-value="https://i.postimg.cc/zGDHfn3G/avatar-1.png">
+                  <img src="https://i.postimg.cc/zGDHfn3G/avatar-1.png" alt="Avatar 1">
+                </div>
+                <div class="icon-option" data-value="https://i.postimg.cc/DwY0yHtx/avatar-2.png">
+                  <img src="https://i.postimg.cc/DwY0yHtx/avatar-2.png" alt="Avatar 2">
+                </div>
+                <div class="icon-option" data-value="https://i.postimg.cc/fRFWhX9F/avatar-3.png">
+                  <img src="https://i.postimg.cc/fRFWhX9F/avatar-3.png" alt="Avatar 3">
+                </div>
+                <div class="icon-option" data-value="https://i.postimg.cc/zXv1Xv81/avatar-4.png">
+                  <img src="https://i.postimg.cc/zXv1Xv81/avatar-4.png" alt="Avatar 4">
+                </div>
+                <div class="icon-option" data-value="https://i.postimg.cc/JzBWVhW4/my-avatar.png">
+                  <img src="https://i.postimg.cc/JzBWVhW4/my-avatar.png" alt="Avatar 5">
+                </div>
+              </div>
+              <div class="msg_icon">
+                <span data-message-icon></span>
+              </div>
+
+              <input type="hidden" name="icon" id="icon" data-icon>
+              <input type='hidden' id="user" value="timqwees">
+          </div>
+
+          <textarea id="message" name=" message" class="form-input" placeholder="Ваше сообщение" required
+            data-form-input></textarea>
+
+          <button class="form-btn" type="submit" id='send'>
+            <ion-icon name="paper-plane"></ion-icon>
+            <span>Отправить</span>
+          </button>
         </section>
       </article>
+
+      <article class="comment" data-page="comment">
+        <section class="projects">
+          <div class="filter-select-box">
+            <button class="filter-select " data-select>
+            </button>
+          </div>
+        </section>
+        <!-- .... -->
+      </article>
+
+      <!-- <article class="blog " data-page="blog">
+      </article>
+
+      <article class="contact " data-page="contact">
+      </article> -->
     </div>
   </main>
 
@@ -2687,10 +2341,91 @@ $user = currentUser();
         }
       });
     }
+
+    document.getElementById('send').onclick = function () {
+      const icon = document.getElementById('icon').value;
+      const user = document.getElementById('user').value;
+      var message_context = document.getElementById('message').value.length < 5 ? message_context = 'пустое сообщение' : message_context = document.getElementById('message').value;
+
+      fetch('system/chat.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          'icon': icon,
+          'user': user,
+          'message': message_context
+        })
+      }).then(() => {
+        document.getElementById('message').value = ''; // Очистить поле ввода
+        loadMessages(); // Загрузить сообщения после отправки
+      });
+    };
+
+    function loadMessages() {
+      fetch('system/chat.php')
+        .then(response => response.json())
+        .then(data => {
+          const chat = document.querySelector('[data-chat]');
+          chat.innerHTML = '';
+          data.forEach(msg => {
+            var user = document.getElementById('user').value;
+            user == msg.user ? chat.insertAdjacentHTML('afterbegin', `
+            <div class="chat_tag_my">
+              <figure class="avatar_chat">
+                <img src="${msg.icon}" alt="">
+              </figure>
+              <div class="content">
+                <div class="message">
+                  <span class="user">${msg.user}</span>
+                  <p class="msg">${msg.message}</p>
+                </div>
+              </div>
+            </div>`) : chat.insertAdjacentHTML('afterbegin', `
+            <div class="chat_tag">
+              <figure class="avatar_chat">
+                <img src="${msg.icon}" alt="">
+              </figure>
+              <div class="content">
+                <div class="message">
+                  <span class="user">${msg.user}</span>
+                  <p class="msg">${msg.message}</p>
+                </div>
+              </div>
+            </div>`);
+          });
+          chat.scrollTop = chat.scrollHeight; // Прокрутить вниз
+        });
+    }
+
+    setInterval(loadMessages, 1000); // Обновлять сообщения каждую сек
+
+    const iconOptions = document.querySelectorAll('.icon-option');
+    const selectedIconInput = document.querySelector('[data-icon]');
+    const message_icon = document.querySelector('[data-message-icon]');
+
+    iconOptions.forEach(option => {
+      option.addEventListener('click', function () {
+        // Удалить выделение у всех опций
+        iconOptions.forEach(opt => opt.classList.remove('selected'));
+        // Добавить выделение к текущей опции
+        this.classList.add('selected');
+        // Установить значение в скрытое поле
+        selectedIconInput.value = this.getAttribute('data-value');
+        updateMessageIcon();
+      });
+    });
+
+    function updateMessageIcon() {
+      selectedIconInput.value.includes('https') ? message_icon.innerHTML = 'выбрана' : (message_icon.innerHTML = 'выберите иконку!', selectedIconInput.value = 'https://i.postimg.cc/zGDHfn3G/avatar-1.png');
+    }
+
+    updateMessageIcon();
   </script>
 
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script defer async type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script defer async nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>
