@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html data-wf-domain="timqwees.technology" data-wf-page="645cebca0c6ed9d1ed21ecdb"
+  data-wf-site="637359c81e22b715cec245ad" lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>TimQwees Technology - Auth</title>
+  <meta content="Пройдите регистрацию, чтобы перейти в онлайн чат политеха" name="description" />
+  <meta content="TimQwees Technology" property="og:title" />
+  <meta content="Пройдите регистрацию, чтобы перейти в онлайн чат политеха" property="og:description" />
+  <meta content="src/timqwees/favicon.ico" property="og:image" />
+  <meta property="og:type" content="website" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link defer="defer" type="text/css" rel="stylesheet" href="src/css/style.css">
+  <link defer="defer" type="text/css" rel="stylesheet" href=' https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+  <link defer="defer" rel="shortcut icon" href="src/timqwees/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+  <div class="container">
+    <div class="form-box login">
+      <form action="/system/sql.php" data-log-forms-check method="post">
+        <h1>Авторизация</h1>
+        <div class="input-box">
+          <div data-log-error-username></div>
+          <div class="control_icon">
+            <input name="tracer_check_forms" type=" text" placeholder="Username" required id="log-user">
+            <i class='bx bxs-user'></i>
+          </div>
+        </div>
+        <div class=" input-box">
+          <div data-log-error-password></div>
+          <div class="control_icon">
+            <input type="password" placeholder="Password" required id="log-pass">
+            <i class='bx bxs-lock-alt'></i>
+          </div>
+        </div>
+        <div class="forgot-link">
+          <p style="cursor: POINTER" data-log-forget>Забыли пароль?</з>
+            <dialog>
+              <p>Помнить нада!</p>
+              <button data-log-close onclick="return false;">
+                <p>продолжить</p>
+              </button>
+            </dialog>
+        </div>
+        <button class=" btn" data-log-valid>Войти</button>
+      </form>
+    </div>
+
+    <div class="form-box register">
+      <form action="/system/sql.php" data-form method="post">
+        <h1>Регистрация</h1>
+        <div class="input-box">
+          <div data-error-username></div>
+          <input name="username" type="text" placeholder="Username" data-username spellcheck pattern=".{6,}" required>
+          <i class=' bx bxs-user'></i>
+        </div>
+        <div class="input-box">
+          <div data-error-group></div>
+          <input name="group" type="number" placeholder="321" data-group patern=".{6,}" required>
+          <i class='bx bxs-envelope'></i>
+        </div>
+        <div class="input-box">
+          <div data-error-password></div>
+          <input name="password" type="password" placeholder="Password" data-password required pattern=".{6,}">
+          <i class='bx bxs-lock-alt'></i>
+        </div>
+        <button type="submit" class="btn" data-valid>Зарегестрироваться</button>
+      </form>
+    </div>
+
+    <div class="toggle-box">
+      <div class="toggle-panel toggle-left">
+        <h1>Добро пожаловать!</h1>
+        <p>Нету аккаунта?</p>
+        <button class="btn register-btn">Создать</button>
+      </div>
+
+      <div class=" toggle-panel toggle-right">
+        <h1>Добро пожаловать!</h1>
+        <p>Уже имеете профиль?</p>
+        <button class="btn login-btn">Авторизоваться</button>
+      </div>
+    </div>
+  </div>
+  <script async src="/system/login.js"></script>
+</body>
+
+</html>
