@@ -2,6 +2,6 @@
 
 
 ```
-внутри lab только задание 5.1
+Тут только finish / итговый тест по PHP от TimQwees Technology
 
 ```
