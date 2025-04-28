@@ -5,5 +5,5 @@ RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# Перенаправляем все остальные запросы на index.php
+# Перенаправляем все остальные запросы на public/index.php
 RewriteRule ^(.*)$ /public/index.php [QSA,L] 

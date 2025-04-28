@@ -35,61 +35,79 @@
  * 
  */
 
-namespace App\Config;
+namespace App\Models\User;
 
+use App\Config\Database;
+use App\Models\Network\Network;
 use PDO;
-use RuntimeException;
 
-class Database
+class User
 {
-    // Параметры подключения к базе данных
-    private const DB_HOST = 's125.craft-hosting.ru';
-    private const DB_PORT = '3306';
-    private const DB_USERNAME = 'bdp472_s1';
-    private const DB_PASSWORD = '123456';
-    private const DB_NAME = 'bdp472_s1';
-    private static $instance = [];
+    private static $db;
+    private $verifyTable;
+    private $className = 'users_php';
+    private $network;
 
-    public static function getConnection()
+    public function __construct()
     {
-        if (empty(self::$instance)) {
-            try {
-                $options = [
-                    PDO::ATTR_PERSISTENT => true, // Постоянное соединение
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false, // Отключаем эмуляцию для лучшей производительности
-                    PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true, // Используем буферизованные запросы
-                    PDO::ATTR_TIMEOUT => 1, // Таймаут в секундах
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4;
-                        SET SESSION sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-                        SET SESSION innodb_lock_wait_timeout=5;
-                        SET SESSION wait_timeout=60;
-                        SET SESSION interactive_timeout=60;
-                        SET SESSION net_read_timeout=10;
-                        SET SESSION net_write_timeout=10;
-                        SET SESSION max_execution_time=1000;"
-                ];
-
-                $dsn = "mysql:host=" . self::DB_HOST .
-                    ";port=" . self::DB_PORT .
-                    ";dbname=" . self::DB_NAME .
-                    ";charset=utf8mb4";
-
-                self::$instance = new PDO($dsn, self::DB_USERNAME, self::DB_PASSWORD, $options);
-
-                return self::$instance;
-            } catch (\PDOException $e) {
-                error_log("Database connection error: " . $e->getMessage());
-                throw new RuntimeException('Ошибка подключения к базе данных. Пожалуйста, проверьте настройки.');
-            }
-        }
-
-        return self::$instance;//PDO
+        self::$db = Database::getConnection();
+        $this->network = new Network();
+        $this->verifyTable = Network::onTableCheck($this->className);
     }
 
-    public static function closeConnection()
+    public function getUser(string $type, int $index)
     {
-        self::$instance = [];
+        try {
+            $this->verifyTable;//check table
+            switch ($type) {
+                case 'id':
+                    $stmt = $this->network->QuaryRequest__User['getUser_id'];
+                    $stmt->execute([$index]);
+                    break;
+                case 'username':
+                    $stmt = $this->network->QuaryRequest__User['getUser_username'];
+                    $stmt->execute([$index]);
+            }
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
+
+    public function onUpdateGroup(int $userId, int $newGroup)
+    {
+        try {
+            $this->verifyTable;//check table
+            $stmt = $this->network->QuaryRequest__User['onUpdateGroup'];
+            return $stmt->execute([$newGroup, $userId]);
+        } catch (\PDOException $e) {
+            return false;
+        }
+    }
+
+    public function onSessionUser($index)
+    {
+        try {
+            $this->verifyTable;//check table
+            $stmt = $this->network->QuaryRequest__User['onSessionUser_id'];
+            $stmt->execute([$index]);
+            if (!$stmt->rowCount() > 1) {
+                $stmt = $this->network->QuaryRequest__User['onSessionUser_username'];
+                $stmt->execute([$index]);
+                $found = $stmt->fetch(PDO::FETCH_ASSOC);
+                if ($found == 'off') {
+                    Network::onRedirect('/login.php');
+                    return false;
+                }
+                return true;
+            } else {
+                error_log("Пользовательский id = `$index` зарегестрирован " . $stmt->rowCount() . " раз в таблице $this->className!");
+            }
+            if (!$stmt->rowCount() > 0) {
+                Network::onRedirect('/login.php');
+            }
+        } catch (\PDOException $e) {
+            return false;
+        }
     }
 }

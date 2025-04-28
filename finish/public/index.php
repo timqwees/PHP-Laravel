@@ -1,117 +1,92 @@
 <?php
+/**
+ * 
+ *  _____                                                                                _____ 
+ * ( ___ )                                                                              ( ___ )
+ *  |   |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|   | 
+ *  |   |                                                                                |   | 
+ *  |   |                                                                                |   | 
+ *  |   |    ________  ___       __   _______   _______   ________                       |   | 
+ *  |   |   |\   __  \|\  \     |\  \|\  ___ \ |\  ___ \ |\   ____\                      |   | 
+ *  |   |   \ \  \|\  \ \  \    \ \  \ \   __/|\ \   __/|\ \  \___|_                     |   | 
+ *  |   |    \ \  \\\  \ \  \  __\ \  \ \  \_|/_\ \  \_|/_\ \_____  \                    |   | 
+ *  |   |     \ \  \\\  \ \  \|\__\_\  \ \  \_|\ \ \  \_|\ \|____|\  \                   |   | 
+ *  |   |      \ \_____  \ \____________\ \_______\ \_______\____\_\  \                  |   | 
+ *  |   |       \|___| \__\|____________|\|_______|\|_______|\_________\                 |   | 
+ *  |   |             \|__|                                 \|_________|                 |   | 
+ *  |   |    ________  ________  ________  _______   ________  ________  ________        |   | 
+ *  |   |   |\   ____\|\   __  \|\   __  \|\  ___ \ |\   __  \|\   __  \|\   __  \       |   | 
+ *  |   |   \ \  \___|\ \  \|\  \ \  \|\  \ \   __/|\ \  \|\  \ \  \|\  \ \  \|\  \      |   | 
+ *  |   |    \ \  \    \ \  \\\  \ \   _  _\ \  \_|/_\ \   ____\ \   _  _\ \  \\\  \     |   | 
+ *  |   |     \ \  \____\ \  \\\  \ \  \\  \\ \  \_|\ \ \  \___|\ \  \\  \\ \  \\\  \    |   | 
+ *  |   |      \ \_______\ \_______\ \__\\ _\\ \_______\ \__\    \ \__\\ _\\ \_______\   |   | 
+ *  |   |       \|_______|\|_______|\|__|\|__|\|_______|\|__|     \|__|\|__|\|_______|   |   | 
+ *  |   |                                                                                |   | 
+ *  |   |                                                                                |   | 
+ *  |___|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|___| 
+ * (_____)                                                                              (_____)
+ * 
+ * Эта программа является свободным программным обеспечением: вы можете распространять ее и/или модифицировать
+ * в соответствии с условиями GNU General Public License, опубликованными
+ * Фондом свободного программного обеспечения (Free Software Foundation), либо в версии 3 Лицензии, либо (по вашему выбору) в любой более поздней версии.
+ *
+ * @author TimQwees
+ * @link https://github.com/TimQwees/Qwees_CorePro
+ * 
+ */
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Models\User;
+use App\Models\User\User;
+use App\Models\Article\Article;
+use App\Models\Network\Network;
 
 // Проверяем авторизацию
 session_start();
-if (!isset($_SESSION['user']['id'])) {
-    header('Location: /public/login.php');
-    exit;
-}
+$userModel = new User();
+$userModel->onSessionUser($_SESSION['user']['id'] ?? null);
 
 // Получаем информацию о текущем пользователе
-$userModel = new User();
-$currentUser = $userModel->getById($_SESSION['user']['id']);
+$currentUser = $userModel->getUser('id', $_SESSION['user']['id']);
 
 if (!$currentUser) {
     session_destroy();
-    header('Location: /public/login.php');
+    Network::onRedirect('login.php');
     exit;
 }
-?>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8" />
-    <title>TimQwees Technology - Account</title>
-    <meta content="Пройдите регистрацию, чтобы перейти в онлайн чат политеха" name="description" />
-    <meta content="TimQwees Technology" property="og:title" />
-    <meta content="Пройдите регистрацию, чтобы перейти в онлайн чат политеха" property="og:description" />
-    <meta content="img/favicon.ico" property="og:image" />
-    <meta property="og:type" content="website" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <main>
-        <div class="sidebar">
-            <div class="profile">
-                <div class="profile-img">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3385/3385696.png" alt="Developer">
-                </div>
-                <div class="profile-info">
-                    <h2>TimQwees Technology</h2>
-                    <p>Группа: <?php echo htmlspecialchars($currentUser['group']); ?></p>
-                </div>
-            </div>
-            <div class="separator"></div>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="#" class="active">
-                            <div class="icon-box">
-                                <ion-icon name="home-outline"></ion-icon>
-                            </div>
-                            <span>Главная</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="icon-box">
-                                <ion-icon name="chatbubble-outline"></ion-icon>
-                            </div>
-                            <span>Чат</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="icon-box">
-                                <ion-icon name="settings-outline"></ion-icon>
-                            </div>
-                            <span>Настройки</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/public/logout.php">
-                            <div class="icon-box">
-                                <ion-icon name="log-out-outline"></ion-icon>
-                            </div>
-                            <span>Выход</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div class="article_wrap">
-        <article>
-            <div class="content">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Apple_Developer_brandmark.svg/2560px-Apple_Developer_brandmark.svg.png" alt="Developer" height="100px">
-            <div class="content-text">
-                <span>Email: <? echo htmlspecialchars($currentUser['username']); ?>!</span>
-                <span>Вы <font style="color: rgb(122, 219, 100);">успешно</font> вошли в систему!</span>
-                </div>
-            </div>
-        </article>
 
-        <article>
-            <div class="content">
-            <div class="content-text">
-                <p>... какая-то информация</p>
-                </div>
-            </div>
-        </article>
-        <article>
-            <div class="content">
-            <div class="content-text">
-                <p>... какая-то информация</p>
-                </div>
-            </div>
-        </article>
-        </div>
-    </main>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</body>
-</html> 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+    $newGroup = (int) $_POST['group'] ?? 0;
+    if ($newGroup >= 100 && $newGroup <= 999) {
+        $userModel->onUpdateGroup($_SESSION['user']['id'], $newGroup);
+        $currentUser['group'] = $newGroup;
+        $_SESSION['success'] = 'Профиль успешно обновлен';
+    } else {
+        $_SESSION['error'] = 'Неверный номер группы';
+    }
+}
+
+// Обработка создания статьи
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_article'])) {
+    $title = trim($_POST['title'] ?? '');
+    $content = trim($_POST['content'] ?? '');
+
+    if (empty($title) || empty($content)) {
+        $_SESSION['error'] = 'Пожалуйста, заполните все поля';
+    } else {
+        $articleModel = new Article();
+        if ($articleModel->addArticle($title, $content, $_SESSION['user']['id'])) {
+            $_SESSION['success'] = 'Статья успешно создана';
+        } else {
+            $_SESSION['error'] = 'Ошибка при создании статьи';
+        }
+    }
+}
+
+// Получаем все статьи
+$articleModel = new Article();
+$articles = $articleModel->getArticleAll();
+
+//HTML
+include __DIR__ . '/view/index.html';
+?>
