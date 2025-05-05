@@ -39,8 +39,11 @@ namespace App\Models\Network;
 
 use App\Config\Database;
 use App\Models\Router\Routes;
-use App\Controllers\AuthController;
-class Network
+// use App\Controllers\AuthController;
+use App\Config\Session;
+use App\Models\Network\Message;
+
+class Network extends Session
 {
     private static $db;
 
@@ -49,6 +52,7 @@ class Network
         '~^$~' => [Routes::class, 'on_Main'],       // https://exemple.com/
         '~^search/login$~' => [Routes::class, 'on_Login'], // https://exemple.com/search/login
         '~^search/regist$~' => [Routes::class, 'on_Regist'], // https://exemple.com/search/regist
+        '~^search/account$~' => [Routes::class, 'on_Account'], // https://exemple.com/search/account
     ];
 
     //### REQUEST FUNCTION IN DATABASE ###
@@ -127,21 +131,21 @@ class Network
                    id INT AUTO_INCREMENT PRIMARY KEY,
                    title VARCHAR(255) NOT NULL
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-                        error_log("Таблица '$type' не найдена в системе после попытки создания.\nБыла создана базовая таблица с названием '$type'");
+                        message::set('error', "Таблица '$type' не найдена в системе после попытки создания.\nБыла создана базовая таблица с названием '$type'");
                         self::$db->exec($sql);
                     }
                     return false;
             }
 
             if (!self::onTableExists($type)) {//false
-                error_log("Таблица '$type' не зарегистрирована");
+                message::set('error', "Таблица '$type' не зарегистрирована");
                 return false;
             }
 
             return true;
 
         } catch (\PDOException $e) {
-            error_log("Ошибка PDO при проверке/создании таблицы '$type': " . $e->getMessage());
+            message::set('error', "Ошибка PDO при проверке/создании таблицы '$type': " . $e->getMessage());
             return false;
         }
     }
@@ -157,7 +161,7 @@ class Network
             $stmt = self::$db->query("SHOW TABLES LIKE '$tableName'");
             return $stmt->rowCount() > 0;//true существует or false несуществует
         } catch (\PDOException $e) {
-            error_log("Ошибка при проверке существования таблицы '$tableName': " . $e->getMessage());
+            message::set('error', "Ошибка при проверке существования таблицы '$tableName': " . $e->getMessage());
             return false;
         }
     }
@@ -176,12 +180,12 @@ class Network
             if ($stmt->rowCount() === 0) {
                 $sql = "ALTER TABLE " . $tableName . " ADD COLUMN `$columnName` VARCHAR(255)";
                 self::$db->exec($sql);
-                error_log("Создание новой колонки '$columnName' в таблице '$tableName'");
+                message::set('error', "Создание новой колонки '$columnName' в таблице '$tableName'");
             }
 
             return true;
         } catch (\PDOException $e) {
-            error_log("Ошибка при проверке/создании колонки '$columnName' в таблице '$tableName': " . $e->getMessage());
+            message::set('error', "Ошибка при проверке/создании колонки '$columnName' в таблице '$tableName': " . $e->getMessage());
             return false;
         }
     }
@@ -192,6 +196,15 @@ class Network
         try {
             if (empty($path)) {
                 throw new \Exception("Путь для перенаправления не может быть пустым");
+            }
+
+            // Убираем дублирование search в пути
+            $path = preg_replace('#^/search/search/#', '/search/', $path);
+            $path = preg_replace('#^search/search/#', 'search/', $path);
+
+            // Добавляем слеш в начало, если его нет
+            if (strpos($path, '/') !== 0) {
+                $path = '/' . $path;
             }
 
             if (ob_get_level()) {
@@ -206,7 +219,7 @@ class Network
             exit();
 
         } catch (\Exception $e) {
-            error_log("Ошибка при перенаправлении: " . $e->getMessage());
+            message::set('error', "Ошибка при перенаправлении: " . $e->getMessage());
 
             if (!headers_sent()) {
                 header("HTTP/1.1 500 Internal Server Error");
@@ -258,7 +271,7 @@ class Network
             if (file_exists($filePath)) {//have't file
                 require_once $filePath;
             } else {
-                die("<br>Ошибка загрузки класса '$className'. Файл не существует по пути: $filePath");
+                message::set('error', "Ошибка загрузки класса '$className'. Файл не существует по пути: $filePath");
             }
         });
     }

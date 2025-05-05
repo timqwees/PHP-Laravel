@@ -40,10 +40,18 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use App\Models\User\User;
 use App\Models\Article\Article;
 use App\Models\Network\Network;
+use App\Models\Network\Message;
 
 // Проверяем авторизацию
-session_start();
-(new User())->onSessionUser($_SESSION['user']['id'] ?? 0);
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['user']['id'])) {
+    $_SESSION['error'] = 'Вы не авторизованы';
+    Network::onRedirect(Network::$path_login);
+    exit();
+}
 
 // Получаем информацию о текущем пользователе
 if (isset($_SESSION['user']['id'])) {
@@ -84,6 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_article'])) {
 $articleModel = new Article();
 $articles = $articleModel->getArticleAll();
 
+$message = Message::controll();
+
 //HTML
-(new Network())->onRoute();
+include __DIR__ . '/view/index.html';
 ?>

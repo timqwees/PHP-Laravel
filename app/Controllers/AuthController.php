@@ -40,6 +40,7 @@ namespace App\Controllers;
 use App\Config\Database;
 use App\Models\Network\Network;
 use App\Models\User\User;
+use App\Models\Network\Message;
 
 class AuthController extends Network
 {
@@ -50,10 +51,13 @@ class AuthController extends Network
 
     public function __construct()
     {
+        // Инициализируем сессию
+        Network::init();
+
         self::$db = Database::getConnection();
         $this->network = new Network();
         $this->user = new User();
-        $this->verifyTable = self::onTableCheck(self::$table_users);//table USERS_PHP
+        $this->verifyTable = self::onTableCheck(self::$table_users);
     }
 
     public function onLogin()
@@ -67,38 +71,36 @@ class AuthController extends Network
         $password = trim($_POST['password'] ?? '');
 
         if (empty($mail) || empty($password)) {
-            $_SESSION['error'] = 'Пожалуйста, заполните все поля';
+            Message::set('error', 'Пожалуйста, заполните все поля');
             self::onRedirect(self::$path_login);
-            return false;
         }
 
         if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['error'] = 'Неверный формат почты';
+            Message::set('error', 'Неверный формат почты');
             self::onRedirect(self::$path_login);
-            return false;
         }
 
         try {
-            $user = (new User())->getUser('mail', $mail);//fetch user by mail
+            $user = (new User())->getUser('mail', $mail);
 
             if ($user && password_verify($password, $user['password'])) {
+                // Регенерируем ID сессии
+                Network::regenerate();
+
                 $_SESSION['user'] = [
                     'id' => $user['id'],
                     'username' => $user['username'],
                     'mail' => $user['mail']
                 ];
-                $_SESSION['success'] = 'Вы успешно вошли в систему';
-                self::onRedirect(self::$path_account);
-                return true;
+                Message::set('success', 'Вы успешно вошли в систему');
+                return self::onRedirect(self::$path_account);
             } else {
-                $_SESSION['error'] = 'Неверная почта или пароль';
-                self::onRedirect(self::$path_login);
-                return false;
+                Message::set('error', 'Неверная почта или пароль');
+                return self::onRedirect(self::$path_login);
             }
         } catch (\Exception $e) {
-            $_SESSION['error'] = 'Произошла ошибка при входе в систему';
-            self::onRedirect(self::$path_login);
-            return false;
+            Message::set('error', 'Произошла ошибка при входе в систему');
+            return self::onRedirect(self::$path_login);
         }
     }
 
@@ -114,27 +116,23 @@ class AuthController extends Network
             $group = (int) $_POST['group'] ?? '';
             // Валидация
             if (empty($username) || empty($password) || empty($mail) || empty($group)) {
-                $_SESSION['error'] = 'Пожалуйста, заполните все поля';
-                self::onRedirect(self::$path_regist);
-                return false;
+                Message::set('error', 'Пожалуйста, заполните все поля');
+                return self::onRedirect(self::$path_regist);
             }
 
             if (strlen($username) < 3) {
-                $_SESSION['error'] = 'Имя пользователя должно содержать минимум 3 символа';
-                self::onRedirect(self::$path_regist);
-                return false;
+                Message::set('error', 'Имя пользователя должно содержать минимум 3 символа');
+                return self::onRedirect(self::$path_regist);
             }
 
             if (strlen($password) < 6) {
-                $_SESSION['error'] = 'Пароль должен содержать минимум 6 символов';
-                self::onRedirect(self::$path_regist);
-                return false;
+                Message::set('error', 'Пароль должен содержать минимум 6 символов');
+                return self::onRedirect(self::$path_regist);
             }
 
             if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
-                $_SESSION['error'] = 'Неверный формат почты';
-                self::onRedirect(self::$path_regist);
-                return false;
+                Message::set('error', 'Неверный формат почты');
+                return self::onRedirect(self::$path_regist);
             }
 
             try {
@@ -142,7 +140,7 @@ class AuthController extends Network
                 $stmt = $this->network->QuaryRequest__Auth['onRegist_fetchUser_ByUsername'];
                 $stmt->execute([$username]);
                 if ($stmt->fetchColumn() > 0) {
-                    $_SESSION['error'] = "Пользователь с именем: $username уже существует";
+                    Message::set('error', "Пользователь с именем: $username уже существует");
                     self::onRedirect(self::$path_regist);
                     return false;
                 }
@@ -150,9 +148,8 @@ class AuthController extends Network
                 $stmt = $this->network->QuaryRequest__Auth['onRegist_fetchUser_ByMail'];
                 $stmt->execute([$mail]);
                 if ($stmt->fetchColumn() > 0) {
-                    $_SESSION['error'] = "Почта: $mail уже существует";
-                    self::onRedirect(self::$path_regist);
-                    return false;
+                    Message::set('error', "Почта: $mail уже существует");
+                    return self::onRedirect(self::$path_regist);
                 }
 
                 $stmt = $this->network->QuaryRequest__Auth['onRegist_Create_User'];
@@ -164,28 +161,26 @@ class AuthController extends Network
                     'on'//session
                 ]);
 
-                $_SESSION['success'] = "Регистрация успешна! $username, Теперь вы можете войти";
+                Message::set('success', "Регистрация успешна! $username, Теперь вы можете войти");
                 return self::onRedirect(self::$path_login);
             } catch (\PDOException $e) {
-                $_SESSION['error'] = 'Ошибка при регистрации: ' . $e->getMessage();
+                Message::set('error', 'Ошибка при регистрации: ' . $e->getMessage());
                 return self::onRedirect(self::$path_regist);
             }
         }
     }
 
-    /**
-     * @return [type]
-     */
     public function logout()
     {
-        session_start();
         if (isset($_SESSION['user']) && isset($_SESSION['user']['id'])) {
             $userModel = new User();
             $userModel->updateSessionStatus('off', $_SESSION['user']['id']);
         }
-        session_destroy();
-        unset($_SESSION['user']);
-        self::onRedirect(self::$path_login);
-        return true;
+
+        // Уничтожаем сессию
+        Network::destroy();
+
+        Message::set('success', 'Вы успешно вышли из системы');
+        return self::onRedirect(self::$path_login);
     }
 }

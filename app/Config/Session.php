@@ -35,90 +35,44 @@
  * 
  */
 
-namespace App\Models\Router;
+namespace App\Config;
 
-use App\Models\Network\Network;
-
-class Routes extends Network
+class Session
 {
- //### SETTING ROUTES ###
-
- private static $routes = [
-  'GET' => [],
-  'POST' => []
- ];
-
- public function __construct()
+ public static function init()
  {
-  // echo '<script>console.log("TimQwees_CorePro - onEnable");</script>';
- }
+  if (session_status() === PHP_SESSION_NONE) {
+   // Устанавливаем параметры сессии
+   session_set_cookie_params([
+    'lifetime' => 86400, // 24 часа
+    'path' => '/',//путь к сессии
+    'domain' => 'localhost',
+    'secure' => true,//работает только на https (true)
+    'httponly' => true,//защита от XSS атак (true)
+    'samesite' => 'Lax'//защита от CSRF атак (Lax)
+   ]);
 
- public static function get($path, $callback)
- {
-  self::$routes['GET'][$path] = $callback;
- }
-
- public static function post($path, $callback)
- {
-  self::$routes['POST'][$path] = $callback;
- }
-
- public static function dispatch()
- {
-  $method = $_SERVER['REQUEST_METHOD'];
-  $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-  // Удаляем /
-  $path = rtrim($path, '/');
-  if (empty($path)) {
-   $path = '/';
+   session_start();
   }
+ }
 
-  if (isset(self::$routes[$method][$path])) {
-   $callback = self::$routes[$method][$path];
+ public static function regenerate()
+ {
+  if (session_status() === PHP_SESSION_ACTIVE) {
+   session_regenerate_id(true);
+  }
+ }
 
-   if (is_callable($callback)) {
-    return call_user_func($callback);
+ public static function destroy()
+ {
+  if (session_status() === PHP_SESSION_ACTIVE) {
+   $_SESSION = array();
+
+   if (isset($_COOKIE[session_name()])) {
+    setcookie(session_name(), '', time() - 3600, '/');
    }
 
-   if (is_array($callback)) {
-    [$controller, $action] = $callback;
-    $controllerInstance = new $controller();
-    return $controllerInstance->$action();
-   }
+   session_destroy();
   }
-
-  // Если маршрут не найден, показываем 404
-  self::error_404($path);
- }
-
- //### ROUTES PAGE ###
-
- public static function error_404(string $path)
- {
-  include dirname(__DIR__, 2) . '/Models/Router/view/404/404.html';
-  exit();
- }
-
- public static function on_Main()
- {
-  include dirname(__DIR__, 3) . '/public/login.php';
-  exit();
- }
- public static function on_Login()
- {
-  include dirname(__DIR__, 3) . '/public/login.php';
-  exit();
- }
- public static function on_Regist()
- {
-  include dirname(__DIR__, 3) . '/public/regist.php';
-  exit();
- }
-
- public static function on_Account()
- {
-  include dirname(__DIR__, 3) . '/public/index.php';
-  exit();
  }
 }

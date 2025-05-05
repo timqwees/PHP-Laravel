@@ -35,90 +35,44 @@
  * 
  */
 
-namespace App\Models\Router;
+namespace App\Models\Network;
 
-use App\Models\Network\Network;
-
-class Routes extends Network
+class Message
 {
- //### SETTING ROUTES ###
-
- private static $routes = [
-  'GET' => [],
-  'POST' => []
- ];
-
- public function __construct()
+ public static function set($type, $message)
  {
-  // echo '<script>console.log("TimQwees_CorePro - onEnable");</script>';
+  $_SESSION['notification'] = [
+   'type' => $type,
+   'message' => $message
+  ];
  }
 
- public static function get($path, $callback)
+ public static function getAll()
  {
-  self::$routes['GET'][$path] = $callback;
- }
-
- public static function post($path, $callback)
- {
-  self::$routes['POST'][$path] = $callback;
- }
-
- public static function dispatch()
- {
-  $method = $_SERVER['REQUEST_METHOD'];
-  $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-  // Удаляем /
-  $path = rtrim($path, '/');
-  if (empty($path)) {
-   $path = '/';
+  if (isset($_SESSION['notification'])) {
+   $message = $_SESSION['notification'];//array
+   unset($_SESSION['notification']);
+   return $message;
   }
-
-  if (isset(self::$routes[$method][$path])) {
-   $callback = self::$routes[$method][$path];
-
-   if (is_callable($callback)) {
-    return call_user_func($callback);
-   }
-
-   if (is_array($callback)) {
-    [$controller, $action] = $callback;
-    $controllerInstance = new $controller();
-    return $controllerInstance->$action();
-   }
-  }
-
-  // Если маршрут не найден, показываем 404
-  self::error_404($path);
+  return null;
  }
 
- //### ROUTES PAGE ###
-
- public static function error_404(string $path)
+ //check isset $_SESSION['notification']
+ public static function has()
  {
-  include dirname(__DIR__, 2) . '/Models/Router/view/404/404.html';
-  exit();
+  return isset($_SESSION['notification']);
  }
 
- public static function on_Main()
+ //return !isset $_SESSION['notification']
+ public static function null()
  {
-  include dirname(__DIR__, 3) . '/public/login.php';
-  exit();
- }
- public static function on_Login()
- {
-  include dirname(__DIR__, 3) . '/public/login.php';
-  exit();
- }
- public static function on_Regist()
- {
-  include dirname(__DIR__, 3) . '/public/regist.php';
-  exit();
+  return ['type' => '', 'message' => ''];
  }
 
- public static function on_Account()
+ // message  arrray or null
+ public static function controll()
  {
-  include dirname(__DIR__, 3) . '/public/index.php';
-  exit();
+  return Message::has() ? Message::getAll() : Message::null();
  }
+
 }
