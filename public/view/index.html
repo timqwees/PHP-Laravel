@@ -76,7 +76,7 @@
             <span>Email:
               <?php echo htmlspecialchars($currentUser['username']); ?>!
             </span>
-            <span>
+            <span class="<?php echo $message['type']; ?>">
               <?php echo $message['message']; ?>
             </span>
           </div>
@@ -86,19 +86,6 @@
       <article id="blog">
         <div class="content">
           <h2>Блог</h2>
-          <?php if (isset($_SESSION['success'])): ?>
-          <div class="success">
-            <?php echo $_SESSION['success'];
-      unset($_SESSION['success']); ?>
-          </div>
-          <?php endif; ?>
-          <?php if (isset($_SESSION['error'])): ?>
-          <div class="error">
-            <?php echo $_SESSION['error'];
-      unset($_SESSION['error']); ?>
-          </div>
-          <?php endif; ?>
-
           <!-- Форма создания статьи -->
           <div class="create-article">
             <h3>Создать новую статью</h3>
@@ -146,18 +133,6 @@
       <article id="settings">
         <div class="content">
           <h2>Настройки профиля</h2>
-          <?php if (isset($_SESSION['success'])): ?>
-          <div class="success">
-            <?php echo $_SESSION['success'];
-      unset($_SESSION['success']); ?>
-          </div>
-          <?php endif; ?>
-          <?php if (isset($_SESSION['error'])): ?>
-          <div class="error">
-            <?php echo $_SESSION['error'];
-      unset($_SESSION['error']); ?>
-          </div>
-          <?php endif; ?>
           <form method="POST" action="">
             <div class="form-group">
               <label for="group">Номер группы:</label>
@@ -168,7 +143,6 @@
           </form>
         </div>
 
-        <?php echo var_dump($articleModel->currentArticle('2', '1')); ?>
       </article>
     </div>
   </main>

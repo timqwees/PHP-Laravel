@@ -60,16 +60,17 @@ if (isset($_SESSION['user']['id'])) {
     $currentUser = false;
 }
 
-// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
-//     $newGroup = (int) $_POST['group'] ?? 0;
-//     if ($newGroup >= 100 && $newGroup <= 999) {
-//         $userModel->onUpdateGroup($_SESSION['user']['id'], $newGroup);
-//         $currentUser['group'] = $newGroup;
-//         $_SESSION['success'] = 'Профиль успешно обновлен';
-//     } else {
-//         $_SESSION['error'] = 'Неверный номер группы';
-//     }
-// }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+    $newGroup = (int) $_POST['group'] ?? 0;
+    if ($newGroup >= 100 && $newGroup <= 999) {
+        $userModel = new User();
+        $userModel->onUpdateProfile(User::$table_users, ['group' => $newGroup], $_SESSION['user']['id']);
+        $currentUser['group'] = $newGroup;
+        Message::set('success', 'Профиль успешно обновлен');
+    } else {
+        Message::set('error', 'Неверный номер группы');
+    }
+}
 
 // Обработка создания статьи
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_article'])) {
@@ -77,13 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_article'])) {
     $content = trim($_POST['content'] ?? '');
 
     if (empty($title) || empty($content)) {
-        $_SESSION['error'] = 'Пожалуйста, заполните все поля';
+        Message::set('error', 'Пожалуйста, заполните все поля');
     } else {
         $articleModel = new Article();
         if ($articleModel->addArticle($title, $content, $_SESSION['user']['id'])) {
-            $_SESSION['success'] = 'Статья успешно создана';
+            Message::set('success', 'Статья успешно создана');
         } else {
-            $_SESSION['error'] = 'Ошибка при создании статьи';
+            Message::set('error', 'Ошибка при создании статьи');
         }
     }
 }

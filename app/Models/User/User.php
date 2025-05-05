@@ -39,6 +39,7 @@ namespace App\Models\User;
 
 use App\Config\Database;
 use App\Models\Network\Network;
+use App\Models\Network\Message;
 use PDO;
 
 class User extends Network
@@ -116,12 +117,16 @@ class User extends Network
             // Add userId to params
             $params[] = $userId;
 
-            $sql = "UPDATE " . self::$table_users . " SET " . implode(', ', $setClause) . " WHERE id = ?";
-            $stmt = self::$db->prepare($sql);
+            $stmt = self::$db->prepare("UPDATE " . self::$table_users . " SET " . implode(', ', $setClause) . " WHERE id = ?");
 
-            return $stmt->execute($params);
+            if ($stmt->execute($params)) {
+                Message::set('success', 'Профиль успешно обновлен');
+                return true;
+            }
+            Message::set('error', 'Ошибка при обновлении профиля');
+            return false;
         } catch (\PDOException $e) {
-            error_log("Ошибка при обновлении профиля: " . $e->getMessage());
+            Message::set('error', 'Ошибка при обновлении профиля: ' . $e->getMessage());
             return false;
         }
     }

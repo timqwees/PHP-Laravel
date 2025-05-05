@@ -39,7 +39,6 @@ namespace App\Models\Network;
 
 use App\Config\Database;
 use App\Models\Router\Routes;
-// use App\Controllers\AuthController;
 use App\Config\Session;
 use App\Models\Network\Message;
 
