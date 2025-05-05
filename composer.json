@@ -1,7 +1,8 @@
 {
-    "name": "timqwees/chat-app",
-    "description": "Chat application for Politech",
+    "name": "timqwees/qwees_corepro",
+    "description": "Qwees_CorePro - the new core of Qwees / \u041d\u043e\u0432\u044b\u0439 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u0441\u0438\u0441\u0442\u0435\u043c\u0430 Qwees_CorePro \u0434\u043b\u044f \u0432\u0435\u0431-\u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439",
     "type": "project",
+    "version": "1.1.0",
     "require": {
         "php": ">=7.4",
         "ext-pdo": "*",
@@ -13,8 +14,26 @@
         }
     },
     "scripts": {
-        "version:patch": "php -r \"$version = exec('git describe --tags --abbrev=0 2>/dev/null || echo \\'0.0.0\\''); $parts = explode('.', $version); $parts[2]++; $newVersion = implode('.', $parts); exec('git tag -a v' . $newVersion . ' -m \\'Version ' . $newVersion . '\\''); echo 'Version updated to ' . $newVersion . PHP_EOL;\"",
-        "version:minor": "php -r \"$version = exec('git describe --tags --abbrev=0 2>/dev/null || echo \\'0.0.0\\''); $parts = explode('.', $version); $parts[1]++; $parts[2] = 0; $newVersion = implode('.', $parts); exec('git tag -a v' . $newVersion . ' -m \\'Version ' . $newVersion . '\\''); echo 'Version updated to ' . $newVersion . PHP_EOL;\"",
-        "version:major": "php -r \"$version = exec('git describe --tags --abbrev=0 2>/dev/null || echo \\'0.0.0\\''); $parts = explode('.', $version); $parts[0]++; $parts[1] = 0; $parts[2] = 0; $newVersion = implode('.', $parts); exec('git tag -a v' . $newVersion . ' -m \\'Version ' . $newVersion . '\\''); echo 'Version updated to ' . $newVersion . PHP_EOL;\""
+        "version:patch": [
+            "php -r \"\\$composer = json_decode(file_get_contents('composer.json'), true); \\$version = explode('.', \\$composer['version']); \\$version[2]++; \\$composer['version'] = implode('.', \\$version); file_put_contents('composer.json', json_encode(\\$composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)); echo 'Version updated to ' . \\$composer['version'] . PHP_EOL;\"",
+            "git add composer.json",
+            "git commit -m \" chore: update version to v%version%\"",
+            "git tag -a v%version% -m \"Version v%version%\"",
+            "git push origin --tags"
+        ],
+        "version:minor": [
+            "php -r \"\\$composer = json_decode(file_get_contents('composer.json'), true); \\$version = explode('.', \\$composer['version']); \\$version[1]++; \\$version[2] = 0; \\$composer['version'] = implode('.', \\$version); file_put_contents('composer.json', json_encode(\\$composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)); echo 'Version updated to ' . \\$composer['version'] . PHP_EOL;\"",
+            "git add composer.json",
+            "git commit -m \" chore: update version to v%version%\"",
+            "git tag -a v%version% -m \"Version v%version%\"",
+            "git push origin --tags"
+        ],
+        "version:major": [
+            "php -r \"\\$composer = json_decode(file_get_contents('composer.json'), true); \\$version = explode('.', \\$composer['version']); \\$version[0]++; \\$version[1] = 0; \\$version[2] = 0; \\$composer['version'] = implode('.', \\$version); file_put_contents('composer.json', json_encode(\\$composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)); echo 'Version updated to ' . \\$composer['version'] . PHP_EOL;\"",
+            "git add composer.json",
+            "git commit -m \" chore: update version to v%version%\"",
+            "git tag -a v%version% -m \"Version v%version%\"",
+            "git push origin --tags"
+        ]
     }
 }
