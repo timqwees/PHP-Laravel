@@ -12,7 +12,7 @@
 
 <body>
 
-	<form method="POST" action="/search/login">
+	<form method="POST">
 		<div class="svgContainer">
 			<div>
 				<svg class="mySVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -186,6 +186,12 @@
 			<button id="login">Войти</button>
 		</div>
 	</form>
+	<?php if (isset($_SESSION['user'])) {
+						echo $_SESSION['user']['id'];
+					} else {
+						echo 'сессия не активна';
+					}?>
+	<button onclick="window.location.href='/search/regist'">Нет аккаунта?</button>
 
 </body>
 

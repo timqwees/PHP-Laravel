@@ -194,9 +194,6 @@ class Network
                 throw new \Exception("Путь для перенаправления не может быть пустым");
             }
 
-            // Очищаем путь от директории "/SEARCH"
-            $cleanPath = str_replace('/search', '', $path);
-
             if (ob_get_level()) {
                 ob_end_clean(); // чистим буфер вывода
             }
@@ -205,18 +202,19 @@ class Network
                 throw new \Exception("Заголовки уже были отправлены в файле $file на строке $line");
             }
 
-            header("Location: " . $path, true, 301);
-            (new Network())->onRoute();//вызываем метод на маршрутизацию
+            header("Location: " . $path);
             exit();
+
         } catch (\Exception $e) {
             error_log("Ошибка при перенаправлении: " . $e->getMessage());
 
             if (!headers_sent()) {
                 header("HTTP/1.1 500 Internal Server Error");
-                echo "Произошла ошибка при перенаправлении. Пожалуйста, попробуйте позже.";
+                echo "Произошла внутренняя ошибка. Пожалуйста, попробуйте позже.";
                 exit();
+            } else {
+                return false;
             }
-            return false;
         }
     }
 
@@ -260,7 +258,7 @@ class Network
             if (file_exists($filePath)) {//have't file
                 require_once $filePath;
             } else {
-                die("ошибка загрузки класса '$className'. Файл не существует по пути: $filePath");
+                die("<br>Ошибка загрузки класса '$className'. Файл не существует по пути: $filePath");
             }
         });
     }

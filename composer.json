@@ -1,8 +1,8 @@
 {
     "name": "timqwees/qwees_corepro",
-    "description": "Qwees_CorePro - the new core of Qwees / \u041d\u043e\u0432\u044b\u0439 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u0441\u0438\u0441\u0442\u0435\u043c\u0430 Qwees_CorePro \u0434\u043b\u044f \u0432\u0435\u0431-\u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439",
+    "description": "Qwees_CorePro: Ядро ваших веб-приложений. Этот PHP-фреймворк предоставляет прочную основу для создания любых проектов, от простых сайтов до сложных API. Надежный, расширяемый и готовый к любым задачам.",
     "type": "project",
-    "version": "1.1.0",
+    "version": "1.0.0",
     "require": {
         "php": ">=7.4",
         "ext-pdo": "*",

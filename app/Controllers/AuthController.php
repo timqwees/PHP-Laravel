@@ -168,8 +168,7 @@ class AuthController extends Network
                 return self::onRedirect(self::$path_login);
             } catch (\PDOException $e) {
                 $_SESSION['error'] = 'Ошибка при регистрации: ' . $e->getMessage();
-                self::onRedirect(self::$path_regist);
-                return false;
+                return self::onRedirect(self::$path_regist);
             }
         }
     }

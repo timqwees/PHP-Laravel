@@ -27,8 +27,7 @@ form {
   left: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  width: 100%;
-  max-width: 400px;
+  max-width: 1000px;
   background-color: #FFF;
   margin: 0;
   padding: 2.25em;
@@ -167,4 +166,10 @@ form .inputGroup1.focusWithText .helper {
   /*input[type='email']:focus + .helper {*/
   transform: translate(1.4em, 2em) scale(0.65);
   opacity: 1;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }

@@ -12,7 +12,7 @@
 
 <body>
 
-	<form method="POST" action="/search/regist">
+	<form method="POST">
 		<div class="svgContainer">
 			<div>
 				<svg class="mySVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -158,45 +158,54 @@
 		<?php if (isset($_SESSION['error'])): ?>
 		<div class="alert alert-error">
 			<?php
-					                echo $_SESSION['error'];
-					                unset($_SESSION['error']);
-					                ?>
+												echo $_SESSION['error'];
+												unset($_SESSION['error']);
+												?>
 		</div>
 		<?php endif; ?>
 
 		<?php if (isset($_SESSION['success'])): ?>
 		<div class="alert alert-success">
 			<?php
-					                echo $_SESSION['success'];
-					                unset($_SESSION['success']);
-					                ?>
+					     echo $_SESSION['success'];
+					     unset($_SESSION['success']);
+					     ?>
 		</div>
 		<?php endif; ?>
 
-		<div class="inputGroup inputGroup3">
-			<label for="username">Имя пользователя</label>
-			<input type="text" id="username" class="username" name="username" placeholder="TimQwees" />
-		</div>
-		<div class="inputGroup inputGroup1">
-			<label for="email1">Почта</label>
-			<input type="text" id="email" class="email" maxlength="256" name="mail" placeholder="timqwees@gmail.com" />
-			<span class="indicator"></span>
-		</div>
-		<div class="inputGroup inputGroup4">
-			<label for="group">Номер группы</label>
-			<input type="number" id="group" class="group" name="group" placeholder="100" minlength="3" maxlength="3"
-				pattern="[0-9]{3}" />
-		</div>
-		<div class="inputGroup inputGroup2">
-			<label for="password">Пароль</label>
-			<input type="password" id="password" class="password" name="password" placeholder="********"
-				minlength="6" />
+		<div class="flex">
+			<div class="inputGroup inputGroup3">
+				<label for="username">Имя пользователя</label>
+				<input type="text" id="username" class="username" name="username" placeholder="TimQwees" />
+			</div>
+			<div class="inputGroup inputGroup1">
+				<label for="email1">Почта</label>
+				<input type="text" id="email" class="email" maxlength="256" name="mail"
+					placeholder="timqwees@gmail.com" />
+				<span class="indicator"></span>
+			</div>
+			<div class="inputGroup inputGroup4">
+				<label for="group">Номер группы</label>
+				<input type="number" id="group" class="group" name="group" placeholder="100" minlength="3" maxlength="3"
+					pattern="[0-9]{3}" />
+			</div>
+			<div class="inputGroup inputGroup2">
+				<label for="password">Пароль</label>
+				<input type="password" id="password" class="password" name="password" placeholder="********"
+					minlength="6" />
+			</div>
 		</div>
 		<div class="inputGroup inputGroup5">
 			<button id="regist">Зарегистрироваться</button>
 		</div>
 	</form>
 
+	<?php if (isset($_SESSION['user'])) {
+							echo $_SESSION['user']['id'];
+						} else {
+							echo 'сессия не активна';
+						}?>
+	<button onclick="window.location.href='/search/login'">Уже есть аккаунт?</button>
 </body>
 
 </html>
