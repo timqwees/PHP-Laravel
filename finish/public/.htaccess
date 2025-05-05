@@ -1,9 +1,0 @@
-RewriteEngine On
-RewriteBase /
-
-# Если файл или директория существуют, используем их напрямую
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-# Перенаправляем все остальные запросы на public/index.php
-RewriteRule ^(.*)$ /public/index.php [QSA,L] 

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unica+One&amp;display=swap">
+  <link rel="stylesheet" href="/app/Models/Router/view/404/style.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script defer src="/app/Models/Router/view/404/main.js"></script>
+  <title>404 Qwees_CorePro |
+    <?php echo $patch; ?>
+  </title>
+</head>
+
+<body>
+  <div id="portalCard">
+    <div class="gooey-effect">
+      <!-- <div class="gooey-blob"></div>
+            <div class="gooey-blob"></div>
+            <div class="gooey-blob"></div>
+            <div class="gooey-blob"></div> -->
+    </div>
+    <div id="portalContent">
+      <h1>404<br>Ошибка</h1>
+      <h2>Страница
+        <? echo '<mark>' . $patch . '</mark>'; ?> не найдена
+      </h2>
+    </div>
+    <canvas class="card-bg" id="cardBgEffect"></canvas>
+  </div>
+
+  <div id="tunnelContainer">
+    <canvas id="tunnelCanvas"></canvas>
+  </div>
+</body>
+
+</html>

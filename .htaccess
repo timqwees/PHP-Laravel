@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /
+
+# Если файл или директория существуют, используем их напрямую
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Внутренне переписываем запрос на public/index.php с параметром route
+RewriteRule ^(.*)$ index.php [QSA,L]
