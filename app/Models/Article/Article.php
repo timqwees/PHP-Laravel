@@ -43,31 +43,15 @@ use PDO;
 
 class Article extends Network
 {
-    /**
-     * @var [type]
-     */
     private static $db;
-    /**
-     * @var [type]
-     */
     private $verifyTable;
-    /**
-     * @var [type]
-     */
-    private $className = 'articles';
-    /**
-     * @var [type]
-     */
     private $network;
-    /**
-     * @var [type]
-     */
 
     public function __construct()
     {
         self::$db = Database::getConnection();
         $this->network = new Network();
-        $this->verifyTable = Network::onTableCheck($this->className);
+        $this->verifyTable = Network::onTableCheck(self::$table_articles);
     }
     /**
      * @param string $title

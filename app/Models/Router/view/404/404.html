@@ -9,7 +9,7 @@
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script defer src="/app/Models/Router/view/404/main.js"></script>
   <title>404 Qwees_CorePro |
-    <?php echo $patch; ?>
+    <?php echo $path; ?>
   </title>
 </head>
 
@@ -24,7 +24,7 @@
     <div id="portalContent">
       <h1>404<br>Ошибка</h1>
       <h2>Страница
-        <? echo '<mark>' . $patch . '</mark>'; ?> не найдена
+        <?php echo '<mark>' . $path . '</mark>'; ?> не найдена
       </h2>
     </div>
     <canvas class="card-bg" id="cardBgEffect"></canvas>

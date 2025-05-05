@@ -14,12 +14,12 @@ $authController = new AuthController();
 // Обработка POST-запроса
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  try {
-  $authController->onLogin();
+  $authController->onRegist();
  } catch (\Exception $e) {
   $_SESSION['error'] = $e->getMessage();
  }
 }
 
 //HTML
-include __DIR__ . '/view/auth.html';
+include __DIR__ . '/view/regist.html';
 ?>

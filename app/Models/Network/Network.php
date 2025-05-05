@@ -38,27 +38,33 @@
 namespace App\Models\Network;
 
 use App\Config\Database;
-use App\Models\Router\Web;
+use App\Models\Router\Routes;
 use App\Controllers\AuthController;
 class Network
 {
     private static $db;
-    private static $patterns = [
-        '~^search/login$~' => [Web::class, 'on_Main'],       // search/login
-    ];
-    public $QuaryRequest__Article = [];//array
 
+    //### PATTERNS ROUTER PAGE ###
+    private static $patterns = [
+        '~^$~' => [Routes::class, 'on_Main'],       // https://exemple.com/
+        '~^search/login$~' => [Routes::class, 'on_Login'], // https://exemple.com/search/login
+        '~^search/regist$~' => [Routes::class, 'on_Regist'], // https://exemple.com/search/regist
+    ];
+
+    //### REQUEST FUNCTION IN DATABASE ###
+    public $QuaryRequest__Article = [];//array
     public $QuaryRequest__User = [];//array
     public $QuaryRequest__Auth = [];//array
 
+    //### LIST TABLES INT0 DATABASE ###
     public static $table_users = 'users_php';
     public static $table_articles = 'articles';
 
     //### PUBLIC PATH ###
-    public $path_login = 'search/login';
-    public $path_index = 'search/index';//non-search
-    public $path_regist = 'search/login?form=register';
-    public $path_logout = 'search/logout';
+    public static $path_login = 'search/login';
+    public static $path_regist = 'search/regist';//not in the search
+    public static $path_account = 'search/account';//not in the search
+    public static $path_logout = 'search/logout';//not in the search
 
     public function __construct(
     ) {
@@ -188,7 +194,7 @@ class Network
                 throw new \Exception("Путь для перенаправления не может быть пустым");
             }
 
-            // Очищаем путь от директории "/public"
+            // Очищаем путь от директории "/SEARCH"
             $cleanPath = str_replace('/search', '', $path);
 
             if (ob_get_level()) {
@@ -199,9 +205,9 @@ class Network
                 throw new \Exception("Заголовки уже были отправлены в файле $file на строке $line");
             }
 
-            header("Location: " . ltrim($cleanPath, '/'));
+            header("Location: " . $path, true, 301);
             (new Network())->onRoute();//вызываем метод на маршрутизацию
-            exit();//обязательно выйдим с цикла
+            exit();
         } catch (\Exception $e) {
             error_log("Ошибка при перенаправлении: " . $e->getMessage());
 
@@ -233,23 +239,18 @@ class Network
                 $action = $controllerAndAction[1]; // sayHello
                 $controller = new $controllerAndAction[0];// App\Models\Page\Window
                 $controller->$action(...$matches);
-
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    (new AuthController())->onLogin();
-                    exit();
-                }
                 break;
             }
         }
         if (!$findRoute) {
             header("HTTP/1.1 404 Страница не найдена");
-            (new Web())->error_404('/' . $route);
+            (new Routes())->error_404('/' . $route);
             exit();
         }
     }
 
 
-    // description: если не используем composer, то вызываем этот метод для загрузки классов
+    // @description: если не используем composer, то вызываем этот метод для загрузки классов
     public static function onAutoloadRegister(
     ): void {
         spl_autoload_register(function ($className) {
@@ -293,6 +294,7 @@ class Network
             $this->QuaryRequest__User = [
                 'getUser_id' => self::$db->prepare("SELECT * FROM " . self::$table_users . " WHERE id = ?"),
                 'getUser_username' => self::$db->prepare("SELECT * FROM " . self::$table_users . " WHERE username = ?"),
+                'getUser_email' => self::$db->prepare("SELECT * FROM " . self::$table_users . " WHERE mail = ?"),
                 'onSessionUser_id' => self::$db->prepare("SELECT `session` FROM " . self::$table_users . " WHERE id = ?"),
                 'onSessionUser_session' => self::$db->prepare("SELECT `session` FROM " . self::$table_users . " WHERE id = ?"),
                 'onUpdateSession' => self::$db->prepare("UPDATE " . self::$table_users . " SET `session` = ? WHERE id = ?"),
@@ -312,7 +314,7 @@ class Network
                 'onLogin_fetchUser_ByMail' => self::$db->prepare("SELECT * FROM " . self::$table_users . " WHERE mail = ?"),
                 'onRegist_fetchUser_ByUsername' => self::$db->prepare("SELECT * FROM " . self::$table_users . " WHERE username = ?"),
                 'onRegist_fetchUser_ByMail' => self::$db->prepare("SELECT * FROM " . self::$table_users . " WHERE mail = ?"),
-                'onRegist_Create_User' => self::$db->prepare("INSERT INTO " . self::$table_users . " (username, mail, password, session) VALUES (?, ?, ?, ?)"),
+                'onRegist_Create_User' => self::$db->prepare("INSERT INTO " . self::$table_users . " (username, mail, password, `group`, session) VALUES (?, ?, ?, ?, ?)"),
             ];
         }
         return $this->QuaryRequest__Auth;

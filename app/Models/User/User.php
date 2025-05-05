@@ -43,29 +43,15 @@ use PDO;
 
 class User extends Network
 {
-    /**
-     * @var [type]
-     */
     private static $db;
-    /**
-     * @var [type]
-     */
     private $verifyTable;
-
-    /**
-     * @var [type]
-     */
     private $network;
-    /**
-     * @var [type]
-     */
-    private $className = 'users';
 
     public function __construct()
     {
         self::$db = Database::getConnection();
         $this->network = new Network();
-        $this->verifyTable = Network::onTableCheck($this->className);
+        $this->verifyTable = self::onTableCheck(self::$table_users);//table USERS_PHP
     }
 
     /**
@@ -74,18 +60,28 @@ class User extends Network
      * 
      * @return [type]
      */
-    public function getUser(string $type, int $index)
+    public function getUser(string $type, $index)
     {
         try {
             $this->verifyTable;//check table
             switch ($type) {
                 case 'id':
+                case 'index':
+                case 'identification':
                     $stmt = $this->network->QuaryRequest__User['getUser_id'];
                     $stmt->execute([$index]);
                     break;
                 case 'username':
+                case 'name':
+                case 'nickname':
                     $stmt = $this->network->QuaryRequest__User['getUser_username'];
                     $stmt->execute([$index]);
+                    break;
+                case 'email':
+                case 'mail':
+                    $stmt = $this->network->QuaryRequest__User['getUser_email'];
+                    $stmt->execute([$index]);
+                    break;
             }
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
@@ -120,7 +116,7 @@ class User extends Network
             // Add userId to params
             $params[] = $userId;
 
-            $sql = "UPDATE " . $this->className . " SET " . implode(', ', $setClause) . " WHERE id = ?";
+            $sql = "UPDATE " . self::$table_users . " SET " . implode(', ', $setClause) . " WHERE id = ?";
             $stmt = self::$db->prepare($sql);
 
             return $stmt->execute($params);
@@ -200,7 +196,7 @@ class User extends Network
     {
         try {
             if ($index === 0) {
-                Network::onRedirect($this->path_login);
+                Network::onRedirect(self::$path_login);
                 session_destroy();
                 return false;
             }
@@ -212,19 +208,19 @@ class User extends Network
             if ($stmt->rowCount() === 1) {
                 $found = $stmt->fetch(PDO::FETCH_ASSOC);
                 if ($found['session'] === 'off') {//сессия отключена / вышел с аккаунта
-                    Network::onRedirect($this->path_login);
+                    Network::onRedirect(self::$path_login);
                     session_destroy();
                     return false;
                 }
                 return true;
             }
 
-            Network::onRedirect($this->path_login);
+            Network::onRedirect(self::$path_login);
             session_destroy();
             return false;
         } catch (\PDOException $e) {
             error_log("Ошибка при проверке пользователя: " . $e->getMessage());
-            Network::onRedirect($this->path_login);
+            Network::onRedirect(self::$path_login);
             session_destroy();
             return false;
         }
