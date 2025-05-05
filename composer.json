@@ -11,5 +11,10 @@
         "psr-4": {
             "App\\": "app/"
         }
+    },
+    "scripts": {
+        "version:patch": "php -r \"$version = exec('git describe --tags --abbrev=0 2>/dev/null || echo \\'0.0.0\\''); $parts = explode('.', $version); $parts[2]++; $newVersion = implode('.', $parts); exec('git tag -a v' . $newVersion . ' -m \\'Version ' . $newVersion . '\\''); echo 'Version updated to ' . $newVersion . PHP_EOL;\"",
+        "version:minor": "php -r \"$version = exec('git describe --tags --abbrev=0 2>/dev/null || echo \\'0.0.0\\''); $parts = explode('.', $version); $parts[1]++; $parts[2] = 0; $newVersion = implode('.', $parts); exec('git tag -a v' . $newVersion . ' -m \\'Version ' . $newVersion . '\\''); echo 'Version updated to ' . $newVersion . PHP_EOL;\"",
+        "version:major": "php -r \"$version = exec('git describe --tags --abbrev=0 2>/dev/null || echo \\'0.0.0\\''); $parts = explode('.', $version); $parts[0]++; $parts[1] = 0; $parts[2] = 0; $newVersion = implode('.', $parts); exec('git tag -a v' . $newVersion . ' -m \\'Version ' . $newVersion . '\\''); echo 'Version updated to ' . $newVersion . PHP_EOL;\""
     }
-} 
+}
