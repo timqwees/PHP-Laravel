@@ -906,3 +906,19 @@ article {
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
+
+.blog-posts {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 1rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.blog-posts>.post {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  width: min-content;
+  border: 1px solid rgb(159, 159, 159);
+}

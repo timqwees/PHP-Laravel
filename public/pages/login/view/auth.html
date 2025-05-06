@@ -3,11 +3,11 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Регистрация - TimQwees Technology</title>
+	<title>Вход в систему - TimQwees Technology</title>
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
-	<link rel="stylesheet" href="../../../public/css/style.css">
+	<link rel="stylesheet" href="../../../../public/src/css/style.css">
 	<script defer src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js'></script>
-	<script defer src="../../../public/js/main.js"></script>
+	<script defer src="../../../../public/src/js/main.js"></script>
 </head>
 
 <body>
@@ -159,39 +159,26 @@
 			<?php echo $message['message']; ?>
 		</div>
 
-		<div class="flex">
-			<div class="inputGroup inputGroup3">
-				<label for="username">Имя пользователя</label>
-				<input type="text" id="username" class="username" name="username" placeholder="TimQwees" />
-			</div>
-			<div class="inputGroup inputGroup1">
-				<label for="email1">Почта</label>
-				<input type="text" id="email" class="email" maxlength="256" name="mail"
-					placeholder="timqwees@gmail.com" />
-				<span class="indicator"></span>
-			</div>
-			<div class="inputGroup inputGroup4">
-				<label for="group">Номер группы</label>
-				<input type="number" id="group" class="group" name="group" placeholder="100" minlength="3" maxlength="3"
-					pattern="[0-9]{3}" />
-			</div>
-			<div class="inputGroup inputGroup2">
-				<label for="password">Пароль</label>
-				<input type="password" id="password" class="password" name="password" placeholder="********"
-					minlength="6" />
-			</div>
+		<div class="inputGroup inputGroup1">
+			<label for="email1">Почта</label>
+			<input type="text" id="email" class="email" maxlength="256" name="mail" placeholder="timqwees@gmail.com" />
+			<span class="indicator"></span>
 		</div>
-		<div class="inputGroup inputGroup5">
-			<button id="regist">Зарегистрироваться</button>
+		<div class="inputGroup inputGroup2">
+			<label for="password">Пароль</label>
+			<input type="password" id="password" class="password" name="password" placeholder="********" />
+		</div>
+		<div class="inputGroup inputGroup3">
+			<button id="login">Войти</button>
 		</div>
 	</form>
-
 	<?php if (isset($_SESSION['user'])) {
-							echo $_SESSION['user']['id'];
-						} else {
-							echo 'сессия не активна';
-						}?>
-	<button onclick="window.location.href='/search/login'">Уже есть аккаунт?</button>
+						echo $_SESSION['user']['id'];
+					} else {
+						echo 'сессия не активна';
+					}?>
+	<button onclick="window.location.href='/search/regist'">Нет аккаунта?</button>
+
 </body>
 
 </html>

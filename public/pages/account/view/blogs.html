@@ -11,7 +11,7 @@
   <meta property="og:type" content="website" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="../../../../public/css/style.css">
+  <link rel="stylesheet" href="../../../../public/src/css/style.css">
 </head>
 
 <body>
@@ -32,7 +32,7 @@
       <nav>
         <ul>
           <li>
-            <a href="#" class="active">
+            <a href="/search/account">
               <div class="icon-box">
                 <ion-icon name="home-outline"></ion-icon>
               </div>
@@ -40,7 +40,7 @@
             </a>
           </li>
           <li>
-            <a href="#blog">
+            <a href="/search/account/blogs" class="active">
               <div class="icon-box">
                 <ion-icon name="newspaper-outline"></ion-icon>
               </div>
@@ -56,7 +56,7 @@
             </a>
           </li>
           <li>
-            <a href="/public/logout.php">
+            <a href="/search/logout">
               <div class="icon-box">
                 <ion-icon name="log-out-outline"></ion-icon>
               </div>
@@ -85,24 +85,7 @@
 
       <article id="blog">
         <div class="content">
-          <h2>Блог</h2>
-          <!-- Форма создания статьи -->
-          <div class="create-article">
-            <h3>Создать новую статью</h3>
-            <form method="POST" action="">
-              <div class="form-group">
-                <label for="title">Заголовок:</label>
-                <input type="text" id="title" name="title" required>
-              </div>
-              <div class="form-group">
-                <label for="content">Содержание:</label>
-                <textarea id="content" name="content" rows="5" required></textarea>
-              </div>
-              <button type="submit" name="create_article">Опубликовать</button>
-            </form>
-          </div>
-
-          <!-- Список статей -->
+          <h2>Читать статьи</h2>
           <div class="blog-posts">
             <?php if ($articles): ?>
             <?php foreach ($articles as $article): ?>
@@ -130,24 +113,10 @@
         </div>
       </article>
 
-      <article id="settings">
-        <div class="content">
-          <h2>Настройки профиля</h2>
-          <form method="POST" action="">
-            <div class="form-group">
-              <label for="group">Номер группы:</label>
-              <input type="number" id="group" name="group"
-                value="<?php echo htmlspecialchars($currentUser['group']); ?>" min="100" max="999" required>
-            </div>
-            <button type="submit" name="update_profile">Сохранить изменения</button>
-          </form>
-        </div>
-
-      </article>
     </div>
   </main>
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script defer type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script defer nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

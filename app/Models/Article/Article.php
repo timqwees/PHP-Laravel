@@ -150,7 +150,7 @@ class Article extends Network
      * 
      * @return [type]
      */
-    public function getAllArticleById($user_index)
+    public function getAllArticleById(int $user_index)
     {
         try {
             $stmt = $this->network->QuaryRequest__Article['getAllArticleById'];
@@ -165,11 +165,11 @@ class Article extends Network
     /**
      * @return [type]
      */
-    public function getListMyArticle()
+    public function getListMyArticle(int $my_id)
     {
         try {
             $stmt = $this->network->QuaryRequest__Article['getListMyArticle'];
-            $stmt->execute([$_SESSION['user']['id']]);
+            $stmt->execute([$my_id]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             Message::set('error', 'Ошибка при получении статей пользователя: ' . $e->getMessage());

@@ -52,6 +52,8 @@ class Network extends Session
         '~^search/login$~' => [Routes::class, 'on_Login'], // https://exemple.com/search/login
         '~^search/regist$~' => [Routes::class, 'on_Regist'], // https://exemple.com/search/regist
         '~^search/account$~' => [Routes::class, 'on_Account'], // https://exemple.com/search/account
+        '~^search/logout$~' => [Routes::class, 'on_Logout'], // https://exemple.com/search/logout
+        '~^search/account/blogs$~' => [Routes::class, 'on_Blogs'], // https://exemple.com/search/account/blogs
     ];
 
     //### REQUEST FUNCTION IN DATABASE ###
@@ -286,9 +288,9 @@ class Network extends Session
                 'removeArticle' => self::$db->prepare("DELETE FROM " . self::$table_articles . " WHERE id = ? AND user_id = ?"),
                 'getArticleAll' => self::$db->prepare("SELECT art.*, user.username FROM " . self::$table_articles . " art JOIN users_php user ON art.user_id = user.id ORDER BY art.created_at DESC"),
                 'getAllArticleById' => self::$db->prepare("SELECT art.*, user.username FROM " . self::$table_articles . " art JOIN users_php user ON art.user_id = user.id WHERE art.user_id = ?"),
-                'getListMyArticle' => self::$db->prepare("SELECT * FROM " . self::$table_articles . " WHERE user_id = ? ORDER BY created_at DESC"),
+                'getListMyArticle' => self::$db->prepare("SELECT art.*, user.username FROM " . self::$table_articles . " art JOIN users_php user ON art.user_id = user.id WHERE user.id = ? ORDER BY art.created_at DESC"),
                 'getMyArticle' => self::$db->prepare("SELECT art.*, user.username FROM " . self::$table_articles . " art JOIN users_php user ON art.user_id = user.id WHERE user.id = ? AND art.id = ?"),
-                'currentArticle' => self::$db->prepare("SELECT art.*, user.username FROM " . self::$table_articles . " art JOIN users_php user WHERE art.user_id = ? AND art.id = ?"),
+                'currentArticle' => self::$db->prepare("SELECT art.*, user.username FROM " . self::$table_articles . " art JOIN users_php user ON art.user_id = user.id WHERE art.user_id = ? AND art.id = ?"),
                 'onUpdateArticle' => self::$db->prepare("UPDATE " . self::$table_articles . " SET title = ?, content = ?, created_at = NOW() WHERE id = ? AND user_id = ?"),
             ];
         }

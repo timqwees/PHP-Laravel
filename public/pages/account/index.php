@@ -35,102 +35,66 @@
  * 
  */
 
-namespace App\Models\Router;
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
+use App\Models\User\User;
+use App\Models\Article\Article;
 use App\Models\Network\Network;
+use App\Models\Network\Message;
 
-class Routes extends Network
-{
- //### SETTING ROUTES ###
-
- private static $routes = [
-  'GET' => [],
-  'POST' => []
- ];
-
- public function __construct()
- {
-  // echo '<script>console.log("TimQwees_CorePro - onEnable");</script>';
- }
-
- public static function get($path, $callback)
- {
-  self::$routes['GET'][$path] = $callback;
- }
-
- public static function post($path, $callback)
- {
-  self::$routes['POST'][$path] = $callback;
- }
-
- public static function dispatch()
- {
-  $method = $_SERVER['REQUEST_METHOD'];
-  $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-  // Удаляем /
-  $path = rtrim($path, '/');
-  if (empty($path)) {
-   $path = '/';
-  }
-
-  if (isset(self::$routes[$method][$path])) {
-   $callback = self::$routes[$method][$path];
-
-   if (is_callable($callback)) {
-    return call_user_func($callback);
-   }
-
-   if (is_array($callback)) {
-    [$controller, $action] = $callback;
-    $controllerInstance = new $controller();
-    return $controllerInstance->$action();
-   }
-  }
-
-  // Если маршрут не найден, показываем 404
-  self::error_404($path);
- }
-
- //### ROUTES PAGE ###
-
- public static function error_404(string $path)
- {
-  include dirname(__DIR__, 2) . '/Models/Router/view/404/404.html';
-  exit();
- }
-
- public static function on_Main()
- {
-  include dirname(__DIR__, 3) . '/public/pages/login/login.php';
-  exit();
- }
- public static function on_Login()
- {
-  include dirname(__DIR__, 3) . '/public/pages/login/login.php';
-  exit();
- }
- public static function on_Regist()
- {
-  include dirname(__DIR__, 3) . '/public/pages/regist/regist.php';
-  exit();
- }
-
- public static function on_Account()
- {
-  include dirname(__DIR__, 3) . '/public/pages/account/index.php';
-  exit();
- }
-
- public static function on_Blogs()
- {
-  include dirname(__DIR__, 3) . '/public/pages/account/blogs.php';
-  exit();
- }
-
- public static function on_Logout()
- {
-  include dirname(__DIR__, 3) . '/public/pages/logout/logout.php';
-  exit();
- }
+// Проверяем авторизацию
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
+
+//connect message[]
+$message = Message::controll();
+//connect userModel
+$userModel = new User();
+//connect articleModel
+$articleModel = new Article();
+
+if (isset($_SESSION['user']['id'])) {
+    $currentUser = (new User())->getUser('id', $_SESSION['user']['id']);
+} else {
+    $currentUser = false;
+    Message::set('error', 'Вы не авторизованы');
+    Network::onRedirect(Network::$path_login);
+    exit();
+}
+
+//post update profile
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+    $newGroup = (int) $_POST['group'] ?? 0;
+    if ($newGroup >= 100 && $newGroup <= 999) {
+        $userModel->onUpdateProfile(User::$table_users, ['group' => $newGroup], $_SESSION['user']['id']);
+        $currentUser['group'] = $newGroup;
+        Message::set('success', 'Профиль успешно обновлен');
+    } else {
+        Message::set('error', 'Неверный номер группы');
+    }
+}
+
+// Обработка создания статьи
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_article'])) {
+    $title = trim($_POST['title'] ?? '');
+    $content = trim($_POST['content'] ?? '');
+
+    if (empty($title) || empty($content)) {
+        Message::set('error', 'Пожалуйста, заполните все поля');
+    } else {
+        $articleModel = new Article();
+        if ($articleModel->addArticle($title, $content, $_SESSION['user']['id'])) {
+            Message::set('success', 'Статья успешно создана');
+        } else {
+            Message::set('error', 'Ошибка при создании статьи');
+        }
+    }
+}
+
+//get list my article
+$articles = $articleModel->getListMyArticle($currentUser['id']);
+
+//HTML
+include __DIR__ . '/view/index.html';
+?>

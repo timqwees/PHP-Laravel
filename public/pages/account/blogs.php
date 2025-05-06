@@ -35,7 +35,7 @@
  * 
  */
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Models\User\User;
 use App\Models\Article\Article;
@@ -47,54 +47,23 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['user']['id'])) {
-    $_SESSION['error'] = 'Вы не авторизованы';
-    Network::onRedirect(Network::$path_login);
-    exit();
-}
+//connect message[]
+$message = Message::controll();
+//connect articleModel
+$articleModel = new Article();
 
-// Получаем информацию о текущем пользователе
 if (isset($_SESSION['user']['id'])) {
     $currentUser = (new User())->getUser('id', $_SESSION['user']['id']);
 } else {
     $currentUser = false;
+    Message::set('error', 'Вы не авторизованы');
+    Network::onRedirect(Network::$path_login);
+    exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
-    $newGroup = (int) $_POST['group'] ?? 0;
-    if ($newGroup >= 100 && $newGroup <= 999) {
-        $userModel = new User();
-        $userModel->onUpdateProfile(User::$table_users, ['group' => $newGroup], $_SESSION['user']['id']);
-        $currentUser['group'] = $newGroup;
-        Message::set('success', 'Профиль успешно обновлен');
-    } else {
-        Message::set('error', 'Неверный номер группы');
-    }
-}
-
-// Обработка создания статьи
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_article'])) {
-    $title = trim($_POST['title'] ?? '');
-    $content = trim($_POST['content'] ?? '');
-
-    if (empty($title) || empty($content)) {
-        Message::set('error', 'Пожалуйста, заполните все поля');
-    } else {
-        $articleModel = new Article();
-        if ($articleModel->addArticle($title, $content, $_SESSION['user']['id'])) {
-            Message::set('success', 'Статья успешно создана');
-        } else {
-            Message::set('error', 'Ошибка при создании статьи');
-        }
-    }
-}
-
-// Получаем все статьи
-$articleModel = new Article();
+//get list my article
 $articles = $articleModel->getArticleAll();
 
-$message = Message::controll();
-
 //HTML
-include __DIR__ . '/view/index.html';
+include __DIR__ . '/view/blogs.html';
 ?>

@@ -1,27 +1,30 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Controllers\AuthController;
 use App\Models\Network\Network;
 use App\Models\Network\Message;
+// Инициализируем сессию
+Network::init();
+
 if (isset($_SESSION['user'])) {
- header('Location: /search/account');
+ Network::onRedirect(Network::$path_account);
  exit();
 }
+
+$message = Message::controll();
 
 $authController = new AuthController();
 
 // Обработка POST-запроса
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  try {
-  $authController->onRegist();
+  $authController->onLogin();
  } catch (\Exception $e) {
-  $_SESSION['error'] = $e->getMessage();
+  Message::set('error', $e->getMessage());
  }
 }
 
-$message = Message::controll();
-
 //HTML
-include __DIR__ . '/view/regist.html';
+include __DIR__ . '/view/auth.html';
 ?>
