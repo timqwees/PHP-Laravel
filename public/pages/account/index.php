@@ -55,7 +55,14 @@ $userModel = new User();
 $articleModel = new Article();
 
 if (isset($_SESSION['user']['id'])) {
-    $currentUser = (new User())->getUser('id', $_SESSION['user']['id']);
+    $currentUser = $userModel->getUser('id', $_SESSION['user']['id']);
+    if ($currentUser) {
+        $articles = $articleModel->getListMyArticle($currentUser['id']);
+    } else {
+        Message::set('error', 'Пользователь не найден');
+        Network::onRedirect(Network::$path_login);
+        exit();
+    }
 } else {
     $currentUser = false;
     Message::set('error', 'Вы не авторизованы');
@@ -91,9 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_article'])) {
         }
     }
 }
-
-//get list my article
-$articles = $articleModel->getListMyArticle($currentUser['id']);
 
 //HTML
 include __DIR__ . '/view/index.html';

@@ -37,12 +37,8 @@ body {
 }
 
 form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: block;
-  max-width: 1000px;
+  gap: 1rem;
+  display: flex;
   background-color: #FFF;
   margin: 0;
   padding: 2.25em;
@@ -50,9 +46,27 @@ form {
   border: solid 1px #DDD;
   border-radius: .5em;
   font-family: 'Source Sans Pro', sans-serif;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: stretch;
 }
 
-form .svgContainer {
+.FormReg {
+  gap: 1rem;
+  display: flex;
+  background-color: #FFF;
+  margin: 0;
+  padding: 2.25em;
+  box-sizing: border-box;
+  border: solid 1px #DDD;
+  border-radius: .5em;
+  font-family: 'Source Sans Pro', sans-serif;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.svgContainer {
   position: relative;
   width: 200px;
   height: 200px;
@@ -87,8 +101,8 @@ form .inputGroup {
   position: relative;
 }
 
-form .inputGroup:last-of-type {
-  margin-bottom: 0;
+form .reginput {
+  width: 48%;
 }
 
 form label {
@@ -422,10 +436,6 @@ body {
 .container p {
   font-size: 14.5px;
   margin-bottom: 15px;
-}
-
-form {
-  width: 100%;
 }
 
 .form-box {
@@ -921,4 +931,12 @@ article {
   border-radius: 8px;
   width: min-content;
   border: 1px solid rgb(159, 159, 159);
+}
+
+.contents {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-direction: row-reverse;
 }

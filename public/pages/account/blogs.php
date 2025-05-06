@@ -53,16 +53,20 @@ $message = Message::controll();
 $articleModel = new Article();
 
 if (isset($_SESSION['user']['id'])) {
-    $currentUser = (new User())->getUser('id', $_SESSION['user']['id']);
+    $currentUser = $userModel->getUser('id', $_SESSION['user']['id']);
+    if ($currentUser) {
+        $articles = $articleModel->getArticleAll();
+    } else {
+        Message::set('error', 'Пользователь не найден');
+        Network::onRedirect(Network::$path_login);
+        exit();
+    }
 } else {
     $currentUser = false;
     Message::set('error', 'Вы не авторизованы');
     Network::onRedirect(Network::$path_login);
     exit();
 }
-
-//get list my article
-$articles = $articleModel->getArticleAll();
 
 //HTML
 include __DIR__ . '/view/blogs.html';
