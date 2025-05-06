@@ -5,6 +5,7 @@
 - [Установка](#установка)
 - [Структура проекта](#структура-проекта)
 - [Основные компоненты](#основные-компоненты)
+- [Ядро фреймворка](#ядро-фреймворка)
 - [Работа с фреймворком](#работа-с-фреймворком)
 - [Сетевая конфигурация](#сетевая-конфигурация)
 - [Примеры использования](#примеры-использования)
@@ -42,14 +43,12 @@ project/
 │   ├── Models/           # Модели данных
 │   └── Config/           # Конфигурационные файлы
 ├── public/                # Публичная директория
-│   ├── css/              # Стили
-│   ├── js/               # JavaScript файлы
-│   ├── view/             # Шаблоны представлений
-│   ├── index.php         # Точка входа
-│   ├── login.php         # Страница авторизации
-│   └── logout.php        # Скрипт выхода
+│   ├── pages/            # Страницы приложения
+│   ├── src/              # Исходные файлы (CSS, JS, изображения)
+│   └── index.php         # Точка входа
 ├── vendor/               # Зависимости Composer
-└── .htaccess            # Конфигурация Apache
+├── .htaccess            # Конфигурация Apache
+└── composer.json        # Конфигурация Composer
 ```
 
 ## Основные компоненты
@@ -63,8 +62,7 @@ project/
 
 ### Система аутентификации
 Фреймворк включает встроенную систему аутентификации:
-- `public/login.php` - страница входа
-- `public/logout.php` - обработка выхода
+- Аутентификация обрабатывается через контроллеры
 - Встроенная защита от CSRF
 - Управление сессиями
 
@@ -81,10 +79,64 @@ project/
 - Бизнес-логика
 - Валидация данных
 
-#### Представления (public/view/)
+#### Представления (public/pages/)
 - HTML-шаблоны
-- Интеграция с CSS и JavaScript
+- Интеграция с CSS и JavaScript из директории src/
 - Форматирование данных
+
+## Ядро фреймворка
+
+### Network и Router - основа фреймворка
+
+Фреймворк построен вокруг двух ключевых компонентов:
+
+#### Network (app/Config/Network.php)
+- Центральный компонент для обработки всех сетевых запросов
+- Управляет HTTP-запросами и ответами
+- Обрабатывает заголовки и куки
+- Контролирует сессии
+- Обеспечивает безопасность запросов
+
+Пример использования Network:
+```php
+use App\Config\Network;
+
+// Инициализация сетевого компонента
+$network = new Network();
+
+// Получение данных запроса
+$requestData = $network->getRequestData();
+
+// Отправка ответа
+$network->sendResponse($data, $statusCode);
+```
+
+#### Router (app/Config/Router.php)
+- Управляет всеми маршрутами приложения
+- Определяет контроллеры и методы для каждого URL
+- Обрабатывает параметры маршрутов
+- Обеспечивает middleware функциональность
+- Интегрируется с Network для обработки запросов
+
+Пример настройки маршрутов:
+```php
+use App\Config\Router;
+
+$router = new Router();
+
+// Регистрация маршрутов
+$router->get('/', 'HomeController@index');
+$router->post('/api/users', 'UserController@store');
+$router->get('/users/{id}', 'UserController@show');
+```
+
+### Взаимодействие компонентов
+
+Network и Router тесно взаимодействуют:
+1. Network получает входящий запрос
+2. Передает управление Router'у
+3. Router определяет нужный контроллер
+4. Network обрабатывает ответ
 
 ## Работа с фреймворком
 
@@ -158,41 +210,48 @@ MIT License. См. файл LICENSE для подробностей.
 
 ## Маршрутизация
 
-Фреймворк предоставляет простую и гибкую систему маршрутизации, которая поддерживает как GET, так и POST запросы.
+### Базовая настройка
 
-### Определение маршрутов
-
-Маршруты определяются в файле `public/index.php`:
+Все маршруты определяются в файле `app/Config/Router.php`:
 
 ```php
 // GET маршруты
-Routes::get('/', function() {
-    return "Главная страница";
-});
-
-Routes::get('/about', function() {
-    return "О нас";
-});
+$router->get('/', 'HomeController@index');
+$router->get('/about', 'PageController@about');
 
 // POST маршруты
-Routes::post('/contact', function() {
-    $data = $_POST;
-    // Обработка данных
-    return "Данные получены";
-});
+$router->post('/api/data', 'ApiController@store');
 
-// Маршруты с контроллерами
-Routes::get('/users', [UserController::class, 'index']);
-Routes::post('/users/create', [UserController::class, 'create']);
+// Маршруты с параметрами
+$router->get('/users/{id}', 'UserController@show');
+$router->get('/posts/{category}/{id}', 'PostController@show');
 ```
 
-### Обработка запросов
+### Middleware
 
-Маршрутизатор автоматически:
-- Определяет метод запроса (GET/POST)
-- Извлекает путь из URL
-- Находит соответствующий обработчик
-- Выполняет callback-функцию или метод контроллера
+Router поддерживает middleware для обработки запросов:
+
+```php
+// Регистрация middleware
+$router->middleware('auth', function($request, $next) {
+    // Проверка аутентификации
+    return $next($request);
+});
+
+// Применение middleware к маршруту
+$router->get('/admin', 'AdminController@index')->middleware('auth');
+```
+
+### Обработка ошибок
+
+Network и Router совместно обрабатывают ошибки:
+
+```php
+// В Router.php
+$router->setErrorHandler(function($error) {
+    return Network::sendError($error->getMessage(), $error->getCode());
+});
+```
 
 ### Примеры использования
 
