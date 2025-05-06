@@ -56,13 +56,7 @@ $articleModel = new Article();
 
 if (isset($_SESSION['user']['id'])) {
     $currentUser = $userModel->getUser('id', $_SESSION['user']['id']);
-    if ($currentUser) {
-        $articles = $articleModel->getListMyArticle($currentUser['id']);
-    } else {
-        Message::set('error', 'Пользователь не найден');
-        Network::onRedirect(Network::$path_login);
-        exit();
-    }
+    $articles = $articleModel->getListMyArticle($currentUser['id']);
 } else {
     $currentUser = false;
     Message::set('error', 'Вы не авторизованы');

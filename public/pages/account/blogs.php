@@ -51,16 +51,12 @@ if (session_status() == PHP_SESSION_NONE) {
 $message = Message::controll();
 //connect articleModel
 $articleModel = new Article();
+//connect userModel
+$userModel = new User();
 
 if (isset($_SESSION['user']['id'])) {
     $currentUser = $userModel->getUser('id', $_SESSION['user']['id']);
-    if ($currentUser) {
-        $articles = $articleModel->getArticleAll();
-    } else {
-        Message::set('error', 'Пользователь не найден');
-        Network::onRedirect(Network::$path_login);
-        exit();
-    }
+    $articles = $articleModel->getArticleAll();
 } else {
     $currentUser = false;
     Message::set('error', 'Вы не авторизованы');
