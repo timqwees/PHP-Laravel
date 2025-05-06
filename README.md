@@ -88,55 +88,96 @@ project/
 
 ### Network и Router - основа фреймворка
 
-Фреймворк построен вокруг двух ключевых компонентов:
+Фреймворк построен вокруг двух ключевых компонентов, расположенных в `app/Models/Network/Network.php` и `app/Models/Router/Routes.php`:
 
-#### Network (app/Config/Network.php)
+#### Network (app/Models/Network/Network.php)
 - Центральный компонент для обработки всех сетевых запросов
-- Управляет HTTP-запросами и ответами
-- Обрабатывает заголовки и куки
-- Контролирует сессии
-- Обеспечивает безопасность запросов
+- Управляет базой данных и таблицами
+- Автоматически создает необходимые таблицы при инициализации
+- Обрабатывает сессии и аутентификацию
+- Предоставляет готовые SQL-запросы для работы с:
+  - Статьями (Articles)
+  - Пользователями (Users)
+  - Аутентификацией (Auth)
+- Управляет перенаправлениями
+- Обрабатывает ошибки и логирование
 
 Пример использования Network:
 ```php
-use App\Config\Network;
+use App\Models\Network\Network;
 
-// Инициализация сетевого компонента
 $network = new Network();
 
-// Получение данных запроса
-$requestData = $network->getRequestData();
+// Работа с базой данных
+$network->onTableCheck('users');
+$network->onColumnExists('new_column', 'users');
 
-// Отправка ответа
-$network->sendResponse($data, $statusCode);
+// Перенаправление
+Network::onRedirect('search/account');
+
+// Подготовленные запросы
+$articleQueries = $network->preparerRequestArticle();
+$userQueries = $network->preparerRequestUser();
+$authQueries = $network->preparerRequestAuth();
 ```
 
-#### Router (app/Config/Router.php)
+#### Router (app/Models/Router/Routes.php)
 - Управляет всеми маршрутами приложения
-- Определяет контроллеры и методы для каждого URL
-- Обрабатывает параметры маршрутов
-- Обеспечивает middleware функциональность
+- Поддерживает паттерны маршрутизации через регулярные выражения
+- Предоставляет готовые маршруты для основных страниц:
+  - Главная страница (`/`)
+  - Логин (`/search/login`)
+  - Регистрация (`/search/regist`)
+  - Аккаунт (`/search/account`)
+  - Блоги (`/search/account/blogs`)
+  - Выход (`/search/logout`)
+- Обрабатывает 404 ошибки
 - Интегрируется с Network для обработки запросов
 
 Пример настройки маршрутов:
 ```php
-use App\Config\Router;
+use App\Models\Router\Routes;
 
-$router = new Router();
+// Регистрация GET маршрута
+Routes::get('/path', function() {
+    // Обработка запроса
+});
 
-// Регистрация маршрутов
-$router->get('/', 'HomeController@index');
-$router->post('/api/users', 'UserController@store');
-$router->get('/users/{id}', 'UserController@show');
+// Регистрация POST маршрута
+Routes::post('/api/data', function() {
+    // Обработка данных
+});
+
+// Использование контроллера
+Routes::get('/users', [UserController::class, 'index']);
 ```
 
 ### Взаимодействие компонентов
 
 Network и Router тесно взаимодействуют:
-1. Network получает входящий запрос
-2. Передает управление Router'у
-3. Router определяет нужный контроллер
-4. Network обрабатывает ответ
+1. Network инициализирует базу данных и необходимые таблицы
+2. Router обрабатывает входящие запросы через паттерны маршрутизации
+3. Network предоставляет готовые SQL-запросы для работы с данными
+4. Router определяет нужный контроллер или callback-функцию
+5. Network обрабатывает ответ и перенаправления
+
+### Структура базы данных
+
+Network автоматически создает и управляет следующими таблицами:
+
+#### users_php
+- id (INT, AUTO_INCREMENT, PRIMARY KEY)
+- mail (VARCHAR(50))
+- username (VARCHAR(50))
+- password (VARCHAR(255))
+- session (VARCHAR(255))
+
+#### articles
+- id (INT, AUTO_INCREMENT, PRIMARY KEY)
+- title (VARCHAR(255))
+- content (TEXT)
+- user_id (INT, FOREIGN KEY)
+- created_at (TIMESTAMP)
 
 ## Работа с фреймворком
 
