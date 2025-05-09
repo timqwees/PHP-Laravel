@@ -921,8 +921,8 @@ article {
   display: flex;
   flex-direction: row-reverse;
   gap: 1rem;
-  justify-content: flex-end;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .blog-posts>.post {

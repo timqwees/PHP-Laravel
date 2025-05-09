@@ -128,6 +128,12 @@ class Routes extends Network
   exit();
  }
 
+ public static function on_Setting()
+ {
+  include dirname(__DIR__, 3) . '/public/pages/account/setting.php';
+  exit();
+ }
+
  public static function on_Logout()
  {
   include dirname(__DIR__, 3) . '/public/pages/logout/logout.php';

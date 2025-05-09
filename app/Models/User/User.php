@@ -106,20 +106,20 @@ class User extends Network
                 Network::onColumnExists($column, $tableName);
             }
 
-            $setClause = [];
-            $params = [];
+            $setColumns = [];//column
+            $setParam = [];//value 
 
             foreach ($fields as $column => $value) {
-                $setClause[] = "`$column` = ?";
-                $params[] = $value;
+                $setColumns[] = "`$column` = ?";
+                $setParam[] = $value;
             }
 
-            // Add userId to params
-            $params[] = $userId;
+            // add userId into last list
+            $setParam[] = $userId;
 
-            $stmt = self::$db->prepare("UPDATE " . self::$table_users . " SET " . implode(', ', $setClause) . " WHERE id = ?");
+            $stmt = self::$db->prepare("UPDATE " . self::$table_users . " SET " . implode(', ', $setColumns) . " WHERE id = ?");
 
-            if ($stmt->execute($params)) {
+            if ($stmt->execute($setParam)) {
                 Message::set('success', 'Профиль успешно обновлен');
                 return true;
             }
@@ -193,9 +193,7 @@ class User extends Network
     }
 
     /**
-     * @param mixed $index
-     * 
-     * @return [type]
+     * @category test function (will be fix)
      */
     public function onSessionUser(int $index)
     {

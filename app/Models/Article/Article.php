@@ -65,9 +65,8 @@ class Article extends Network
     {
         try {
             $stmt = $this->network->QuaryRequest__Article['addArticle'];
-            if ($stmt->execute([$title, $content, $userId])) {
-                Message::set('success', 'Статья успешно создана');
-                return self::$db->lastInsertId();
+            if ($stmt->execute([$title, $content, $userId])) {//проблема с показом сооющения при обновлении сраниц
+                return self::$db->lastInsertId() && Message::set('success', 'Статья успешно создана') && Network::onRedirect(Network::$path_account) && true;
             }
             Message::set('error', 'Ошибка при создании статьи');
             return false;

@@ -63,20 +63,23 @@ if (isset($_SESSION['user']['id'])) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_article'])) {
-    $title = trim($_POST['title'] ?? '');
-    $content = trim($_POST['content'] ?? '');
-    if (empty($title) || empty($content)) {
-        Message::set('error', 'Пожалуйста, заполните все поля');
-    }
-    $articleModel->addArticle($title, $content, $_SESSION['user']['id']);
+//### POST ###
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+    $newGroup = (int) $_POST['group'] ?? 0;
+    $newUsername = (string) $_POST['username'] ?? "no name";
+    $newMail = (string) $_POST['mail'] ?? "no correct email";
+    $userModel->onUpdateProfile(User::$table_users, ['group' => $newGroup, 'mail' => $newMail, 'username' => $newUsername], $_SESSION['user']['id']);
+    //обновлние данных до запроса к базе / update dates before require to datebase
+    // $currentUser['group'] = $newGroup;
+    // $currentUser['mail'] = $newMail;
+    // $currentUser['username'] = $newUsername;
+    Message::set('success', 'Профиль успешно обновлен');
+    Network::onRedirect(Network::$path_account);
 }
 
-//### LOAD ###
-
-$articles = $articleModel->getListMyArticle($currentUser['id']);
 
 //### VIEW ###
 
-include __DIR__ . '/view/index.html';
+include __DIR__ . '/view/setting.html';
 ?>

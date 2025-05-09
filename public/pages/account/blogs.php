@@ -56,13 +56,14 @@ $userModel = new User();
 
 if (isset($_SESSION['user']['id'])) {
     $currentUser = $userModel->getUser('id', $_SESSION['user']['id']);
-    $articles = $articleModel->getArticleAll();
 } else {
     $currentUser = false;
     Message::set('error', 'Вы не авторизованы');
     Network::onRedirect(Network::$path_login);
     exit();
 }
+
+$articles = $articleModel->getArticleAll();
 
 //HTML
 include __DIR__ . '/view/blogs.html';

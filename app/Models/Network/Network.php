@@ -52,8 +52,9 @@ class Network extends Session
         '~^search/login$~' => [Routes::class, 'on_Login'], // https://exemple.com/search/login
         '~^search/regist$~' => [Routes::class, 'on_Regist'], // https://exemple.com/search/regist
         '~^search/account$~' => [Routes::class, 'on_Account'], // https://exemple.com/search/account
-        '~^search/logout$~' => [Routes::class, 'on_Logout'], // https://exemple.com/search/logout
         '~^search/account/blogs$~' => [Routes::class, 'on_Blogs'], // https://exemple.com/search/account/blogs
+        '~^search/account/setting$~' => [Routes::class, 'on_Setting'], // https://exemple.com/search/account/setting
+        '~^search/logout$~' => [Routes::class, 'on_Logout'], // https://exemple.com/search/logout
     ];
 
     //### REQUEST FUNCTION IN DATABASE ###
@@ -85,6 +86,10 @@ class Network extends Session
      * @param string $type
      * 
      * @return [type]
+     * 
+     * @example $this->onTableCheck('Имя таблицы')
+     * @description автопроверка на существование таблицы и автосоздание несущетвующей / auto-checking for the existence of a table and auto-creating a nonessential one
+     * 
      */
     public static function onTableCheck(string $type)
     {
