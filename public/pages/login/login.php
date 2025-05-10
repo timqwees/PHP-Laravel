@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../../vendor/autoload.php';
 use App\Controllers\AuthController;
 use App\Models\Network\Network;
 use App\Models\Network\Message;
+
 // Инициализируем сессию
 Network::init();
 

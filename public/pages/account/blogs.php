@@ -42,10 +42,8 @@ use App\Models\Article\Article;
 use App\Models\Network\Network;
 use App\Models\Network\Message;
 
-// Проверяем авторизацию
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+// Инициализируем сессию
+Network::init();
 
 //connect message[]
 $message = Message::controll();

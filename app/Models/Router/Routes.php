@@ -53,16 +53,40 @@ class Routes extends Network
   // echo '<script>console.log("TimQwees_CorePro - onEnable");</script>';
  }
 
+
+
+ /**
+  * @param mixed $path
+  * @param mixed $callback
+  * @return [type]
+
+  * @example $this->get('/', 'on_Main');
+  * @description get запрос служит для получения данных / get request is need to get data
+  */
  public static function get($path, $callback)
  {
   self::$routes['GET'][$path] = $callback;
  }
 
+ /**
+  * @param mixed $path
+  * @param mixed $callback
+  * @return [type]
+  * 
+  * @example $this->post('/', 'on_Main');
+  * @description post запрос служит для отправки данных / post request is need to send data
+  */
  public static function post($path, $callback)
  {
   self::$routes['POST'][$path] = $callback;
  }
 
+ /**
+  * @return [type]
+  * 
+  * @example $this->dispatch();
+  * @description служит для запуска маршрутизации / it's need to turn on routing
+  */
  public static function dispatch()
  {
   $method = $_SERVER['REQUEST_METHOD'];
@@ -92,6 +116,13 @@ class Routes extends Network
   self::error_404($path);
  }
 
+ /** примеры использования get/post/dispatch
+  * 
+  * $this->get('/', 'on_Main'); - обрабатывает get запрос при переходе на главную страницу и вызывает функцию on_Main
+  * $this->post('/', 'on_Mainprogress'); - обрабатывает post запрос при отправке данных на главную страницу и вызывает функцию on_Mainprogress
+  * $this->dispatch(); - запускает маршрутизацию get и post запросов
+  */
+
  //### ROUTES PAGE ###
 
  public static function error_404(string $path)
@@ -115,7 +146,6 @@ class Routes extends Network
   include dirname(__DIR__, 3) . '/public/pages/regist/regist.php';
   exit();
  }
-
  public static function on_Account()
  {
   include dirname(__DIR__, 3) . '/public/pages/account/index.php';

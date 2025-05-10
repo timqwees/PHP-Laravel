@@ -939,3 +939,26 @@ article {
   gap: 1rem;
   flex-direction: row-reverse;
 }
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.breadcrumb a {
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  color: #666;
+}

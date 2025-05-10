@@ -60,6 +60,13 @@ class AuthController extends Network
         $this->verifyTable = self::onTableCheck(self::$table_users);
     }
 
+    /**
+     * @return [type]
+     * 
+     * @example $this->onLogin();
+     * @description вход в систему / login to system
+     * 
+     */
     public function onLogin()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -106,6 +113,10 @@ class AuthController extends Network
 
     /**
      * @return [type]
+     * 
+     * @example $this->onRegist();
+     * @description регистрация пользователя / register user
+     * 
      */
     public function onRegist()
     {

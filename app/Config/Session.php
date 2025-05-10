@@ -39,6 +39,13 @@ namespace App\Config;
 
 class Session
 {
+ /**
+  * @return [type]
+  * 
+  * @example Session::init();
+  * @description инициализирует сессию и устанавливает параметры / initialize session and set parameters
+  * 
+  */
  public static function init()
  {
   if (session_status() === PHP_SESSION_NONE) {
@@ -56,6 +63,14 @@ class Session
   }
  }
 
+ /**
+  * @return [type]
+  * 
+  * @example Session::regenerate();
+  * @description регенерирует сессию для защиты от атак / regenerate session for protection against attacks
+  * требуеться во всех файлах, где требуеться запрос к данным пользователя
+  * 
+  */
  public static function regenerate()
  {
   if (session_status() === PHP_SESSION_ACTIVE) {
@@ -63,6 +78,13 @@ class Session
   }
  }
 
+ /**
+  * @return [type]
+  * 
+  * @example Session::destroy();
+  * @description уничтожает сессию / destroy session
+  * 
+  */
  public static function destroy()
  {
   if (session_status() === PHP_SESSION_ACTIVE) {

@@ -60,6 +60,16 @@ class User extends Network
      * @param int $index
      * 
      * @return [type]
+     * 
+     * @example $this->getUser('id', 1);
+     * @description получает данные пользователя по id / get user data by id
+     * 
+     * @example $this->getUser('username', 'admin');
+     * @description получает данные пользователя по username / get user data by username
+     * 
+     * @example $this->getUser('email', 'admin@example.com');
+     * @description получает данные пользователя по email / get user data by email
+     * 
      */
     public function getUser(string $type, $index)
     {
@@ -96,6 +106,10 @@ class User extends Network
      * @param int $userId User ID to update
      * 
      * @return bool
+     * 
+     * @example $this->onUpdateProfile('имя_таблицы', ['username' => 'admin', 'email' => 'timqwees@gmail.com'], 'id профиля');
+     * @description обновляет данные пользователя с помощью массива данных / update user data with array of fields and user id
+     * 
      */
     public function onUpdateProfile(string $tableName, array $fields, int $userId)
     {
@@ -137,6 +151,9 @@ class User extends Network
      * @param string $prefix Префикс для имени файла (обычно ID пользователя)
      * @param string|null $customName Пользовательское имя файла (без расширения)
      * @return string|false Путь к файлу или false в случае ошибки
+     * 
+     * @example $this->uploadFile($_FILES['file'], 'id пользователя', 'имя файла');
+     * @description загружает файл и возвращает путь к нему / upload file and return path to it
      */
     function uploadFile(array $file, string $prefix = '', ?string $customName = null): string|false
     {
@@ -194,6 +211,9 @@ class User extends Network
 
     /**
      * @category test function (will be fix)
+     * 
+     * @example $this->onSessionUser(0);
+     * @description проверяет сессию пользователя / check user session
      */
     public function onSessionUser(int $index)
     {
@@ -232,8 +252,10 @@ class User extends Network
     /**
      * @param string $status
      * @param int $userId
-     * 
      * @return [type]
+     *
+     * @example $this->updateSessionStatus('on', 1);
+     * @description обновляет статус сессии пользователя / update user session status
      */
     public function updateSessionStatus(string $status, int $userId)
     {

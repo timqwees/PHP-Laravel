@@ -158,8 +158,11 @@ class Network extends Session
 
     /**
      * @param string $tableName
-     * 
      * @return bool
+     * 
+     * @example $this->onTableCheck('Имя таблицы')
+     * @description автопроверка на существование таблицы и автосоздание несущетвующей / auto-checking for the existence of a table and auto-creating a nonessential one
+     * 
      */
     private static function onTableExists(string $tableName)
     {
@@ -175,8 +178,11 @@ class Network extends Session
     /**
      * @param string $columnName
      * @param string $tableName
-     * 
      * @return [type]
+     * 
+     * @example $this->onColumnExists('Имя колонки', 'Имя таблицы');
+     * @description автопроверка на существование колонок в таблице и автосоздание колонки / auto-checking coluns in table and auto-creating column if have not
+     * 
      */
     public static function onColumnExists(string $columnName, string $tableName)
     {
@@ -196,7 +202,16 @@ class Network extends Session
         }
     }
 
-
+    /**
+     * Summary of onRedirect
+     * @param string $path
+     * @throws \Exception
+     * @return bool
+     * 
+     * @example $this->onRedirect('Путь начиная с корневой директории');
+     * @description переадресация к страницам / redirect to page in workspace
+     * 
+     */
     public static function onRedirect(string $path)
     {
         try {
@@ -207,6 +222,11 @@ class Network extends Session
             // Убираем дублирование search в пути
             $path = preg_replace('#^/search/search/#', '/search/', $path);
             $path = preg_replace('#^search/search/#', 'search/', $path);
+
+            // Проверяем на бесконечные редиректы
+            if ($_SERVER['REQUEST_URI'] === $path) {
+                throw new \Exception("Обнаружен циклический редирект на: " . $path);
+            }
 
             // Добавляем слеш в начало, если его нет
             if (strpos($path, '/') !== 0) {
@@ -221,7 +241,7 @@ class Network extends Session
                 throw new \Exception("Заголовки уже были отправлены в файле $file на строке $line");
             }
 
-            header("Location: " . $path);
+            header("Location: " . $path, true, 302);
             exit();
 
         } catch (\Exception $e) {
@@ -229,7 +249,7 @@ class Network extends Session
 
             if (!headers_sent()) {
                 header("HTTP/1.1 500 Internal Server Error");
-                echo "Произошла внутренняя ошибка. Пожалуйста, попробуйте позже.";
+                echo "Произошла внутренняя ошибка. Пожалуйста, проверьте ваше интернет соединение!";
                 exit();
             } else {
                 return false;
@@ -237,13 +257,19 @@ class Network extends Session
         }
     }
 
+    /**
+     * 
+     * @example $this->onRoute();
+     * @description служит для запуска маршрутизации на сайте / it's need to turn on routing on the site
+     * 
+     */
     public function onRoute()
     {
         self::onAutoloadRegister();
 
         // Получаем текущий маршрут из .htaccess
-        if (isset($_SERVER['REDIRECT_URL'])) {
-            $route = trim($_SERVER['REDIRECT_URL'], '/');
+        if (isset($_GET['route'])) {
+            $route = trim($_GET['route'], '/');
         } else {
             $route = trim($_SERVER['REQUEST_URI'], '/');
         }
@@ -267,7 +293,13 @@ class Network extends Session
     }
 
 
-    // @description: если не используем composer, то вызываем этот метод для загрузки классов
+    /**
+     * @return [type]
+     * 
+     * @example $this->onAutoloadRegister();
+     * @description служит для загрузки классов / it's need to load classes
+     * 
+     */
     public static function onAutoloadRegister(
     ): void {
         spl_autoload_register(function ($className) {
@@ -284,6 +316,10 @@ class Network extends Session
 
     /**
      * @return [type]
+     * 
+     * @example $this->preparerRequestArticle();
+     * @description служит для подготовки запросов к базе данных / it's need to prepare requests to the database
+     * 
      */
     public function preparerRequestArticle()
     {
@@ -304,6 +340,10 @@ class Network extends Session
 
     /**
      * @return [type]
+     * 
+     * @example $this->preparerRequestUser();
+     * @description служит для подготовки запросов к базе данных / it's need to prepare requests to the database
+     * 
      */
     public function preparerRequestUser()
     {
@@ -322,6 +362,10 @@ class Network extends Session
 
     /**
      * @return [type]
+     * 
+     * @example $this->preparerRequestAuth();
+     * @description служит для подготовки запросов к базе данных / it's need to prepare requests to the database
+     * 
      */
     public function preparerRequestAuth()
     {

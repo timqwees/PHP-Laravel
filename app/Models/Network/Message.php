@@ -47,6 +47,13 @@ class Message
   ];
  }
 
+ /**
+  * @return [type]
+  * 
+  * @example Message::getAll();
+  * @description возвращяем ответ сообщения и удаляем его из сессии / get message response and delete it from session
+  * 
+  */
  public static function getAll()
  {
   if (isset($_SESSION['notification'])) {
@@ -58,18 +65,39 @@ class Message
  }
 
  //check isset $_SESSION['notification']
+ /**
+  * @return [type]
+  * 
+  * @example Message::has();
+  * @description проверяет, существует ли $_SESSION['notification'] / check isset $_SESSION['notification']
+  * 
+  */
  public static function has()
  {
   return isset($_SESSION['notification']);
  }
 
  //return !isset $_SESSION['notification']
+ /**
+  * @return [type]
+  * 
+  * @example Message::null();
+  * @description возвращает массив или null / return array or null
+  * 
+  */
  public static function null()
  {
   return ['type' => '', 'message' => ''];
  }
 
  // message  arrray or null
+ /**
+  * @return [type]
+  * 
+  * @example Message::controll();
+  * @description автоматически проверяет, существует ли $_SESSION['notification'] и возвращает массив или null / automatically check isset $_SESSION['notification'] and return array or null
+  * 
+  */
  public static function controll()
  {
   return Message::has() ? Message::getAll() : Message::null();

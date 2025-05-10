@@ -6,4 +6,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Внутренне переписываем запрос на public/index.php с параметром route
-RewriteRule ^(.*)$ index.php [QSA,L]
+RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
