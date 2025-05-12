@@ -1,0 +1,49 @@
+.header__container {
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header__content-left,
+.header__content-right {
+    margin: 0;
+}
+
+.header__content-right {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.header__logo {
+    cursor: pointer;
+}
+
+.header__navigation {
+    display: flex;
+    align-items: center;
+}
+
+.navigation__list {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+.navigation__link {
+    list-style: none;
+    font-size: 1.8rem;
+    color: var(--text);
+}
+
+.link_to_profile {
+    align-self: center;
+}
+
+.header__icon {
+    align-self: center;
+}
+.navigation__link:hover {
+    text-decoration: underline;
+}

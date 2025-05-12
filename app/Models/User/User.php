@@ -39,20 +39,36 @@ namespace App\Models\User;
 
 use App\Config\Database;
 use App\Models\Network\Network;
-use App\Models\Network\Message;
 use PDO;
 
-class User extends Network
+class User
 {
+    /**
+     * @var [type]
+     */
     private static $db;
+    /**
+     * @var [type]
+     */
     private $verifyTable;
+    /**
+     * @var [type]
+     */
+    private $className = 'users';
+    /**
+     * @var [type]
+     */
     private $network;
+    /**
+     * @var string
+     */
+    private $path_login = '/login.php';
 
     public function __construct()
     {
         self::$db = Database::getConnection();
         $this->network = new Network();
-        $this->verifyTable = self::onTableCheck(self::$table_users);//table USERS_PHP
+        $this->verifyTable = Network::onTableCheck($this->className);
     }
 
     /**
@@ -60,43 +76,22 @@ class User extends Network
      * @param int $index
      * 
      * @return [type]
-     * 
-     * @example $this->getUser('id', 1);
-     * @description получает данные пользователя по id / get user data by id
-     * 
-     * @example $this->getUser('username', 'admin');
-     * @description получает данные пользователя по username / get user data by username
-     * 
-     * @example $this->getUser('email', 'admin@example.com');
-     * @description получает данные пользователя по email / get user data by email
-     * 
      */
-    public function getUser(string $type, $index)
+    public function getUser(string $type, int $index)
     {
         try {
             $this->verifyTable;//check table
             switch ($type) {
                 case 'id':
-                case 'index':
-                case 'identification':
                     $stmt = $this->network->QuaryRequest__User['getUser_id'];
                     $stmt->execute([$index]);
                     break;
                 case 'username':
-                case 'name':
-                case 'nickname':
                     $stmt = $this->network->QuaryRequest__User['getUser_username'];
                     $stmt->execute([$index]);
-                    break;
-                case 'email':
-                case 'mail':
-                    $stmt = $this->network->QuaryRequest__User['getUser_email'];
-                    $stmt->execute([$index]);
-                    break;
             }
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            error_log("Ошибка при получении пользователя: " . $e->getMessage());
             return false;
         }
     }
@@ -106,10 +101,6 @@ class User extends Network
      * @param int $userId User ID to update
      * 
      * @return bool
-     * 
-     * @example $this->onUpdateProfile('имя_таблицы', ['username' => 'admin', 'email' => 'timqwees@gmail.com'], 'id профиля');
-     * @description обновляет данные пользователя с помощью массива данных / update user data with array of fields and user id
-     * 
      */
     public function onUpdateProfile(string $tableName, array $fields, int $userId)
     {
@@ -120,27 +111,23 @@ class User extends Network
                 Network::onColumnExists($column, $tableName);
             }
 
-            $setColumns = [];//column
-            $setParam = [];//value 
+            $setClause = [];
+            $params = [];
 
             foreach ($fields as $column => $value) {
-                $setColumns[] = "`$column` = ?";
-                $setParam[] = $value;
+                $setClause[] = "`$column` = ?";
+                $params[] = $value;
             }
 
-            // add userId into last list
-            $setParam[] = $userId;
+            // Add userId to params
+            $params[] = $userId;
 
-            $stmt = self::$db->prepare("UPDATE " . self::$table_users . " SET " . implode(', ', $setColumns) . " WHERE id = ?");
+            $sql = "UPDATE " . $this->className . " SET " . implode(', ', $setClause) . " WHERE id = ?";
+            $stmt = self::$db->prepare($sql);
 
-            if ($stmt->execute($setParam)) {
-                Message::set('success', 'Профиль успешно обновлен');
-                return true;
-            }
-            Message::set('error', 'Ошибка при обновлении профиля');
-            return false;
+            return $stmt->execute($params);
         } catch (\PDOException $e) {
-            Message::set('error', 'Ошибка при обновлении профиля: ' . $e->getMessage());
+            error_log("Error updating profile: " . $e->getMessage());
             return false;
         }
     }
@@ -151,9 +138,6 @@ class User extends Network
      * @param string $prefix Префикс для имени файла (обычно ID пользователя)
      * @param string|null $customName Пользовательское имя файла (без расширения)
      * @return string|false Путь к файлу или false в случае ошибки
-     * 
-     * @example $this->uploadFile($_FILES['file'], 'id пользователя', 'имя файла');
-     * @description загружает файл и возвращает путь к нему / upload file and return path to it
      */
     function uploadFile(array $file, string $prefix = '', ?string $customName = null): string|false
     {
@@ -210,16 +194,15 @@ class User extends Network
     }
 
     /**
-     * @category test function (will be fix)
+     * @param mixed $index
      * 
-     * @example $this->onSessionUser(0);
-     * @description проверяет сессию пользователя / check user session
+     * @return [type]
      */
     public function onSessionUser(int $index)
     {
         try {
             if ($index === 0) {
-                Network::onRedirect(self::$path_login);
+                Network::onRedirect($this->path_login);
                 session_destroy();
                 return false;
             }
@@ -231,19 +214,19 @@ class User extends Network
             if ($stmt->rowCount() === 1) {
                 $found = $stmt->fetch(PDO::FETCH_ASSOC);
                 if ($found['session'] === 'off') {//сессия отключена / вышел с аккаунта
-                    Network::onRedirect(self::$path_login);
+                    Network::onRedirect($this->path_login);
                     session_destroy();
                     return false;
                 }
                 return true;
             }
 
-            Network::onRedirect(self::$path_login);
+            Network::onRedirect($this->path_login);
             session_destroy();
             return false;
         } catch (\PDOException $e) {
             error_log("Ошибка при проверке пользователя: " . $e->getMessage());
-            Network::onRedirect(self::$path_login);
+            Network::onRedirect($this->path_login);
             session_destroy();
             return false;
         }
@@ -252,10 +235,8 @@ class User extends Network
     /**
      * @param string $status
      * @param int $userId
+     * 
      * @return [type]
-     *
-     * @example $this->updateSessionStatus('on', 1);
-     * @description обновляет статус сессии пользователя / update user session status
      */
     public function updateSessionStatus(string $status, int $userId)
     {

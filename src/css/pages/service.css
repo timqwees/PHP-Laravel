@@ -1,0 +1,49 @@
+main {
+    padding: 5rem;
+}
+
+.container__card {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    height: 75vh;
+    border-radius: 4rem;
+    overflow: hidden;
+    box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+
+    img {
+        width: 50%;
+        object-fit: cover;
+    
+    }
+}
+
+.container__content {
+    padding: 3rem;
+    background-color: #fff;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    h3 {
+        margin: 0 0 1rem;
+        font-size: 3.6rem;
+        color: var(--blue-accent);
+        font-family: "RobotoMedium";
+    }
+    p, span {
+        margin: 0;
+        font-size: 2.4rem;
+        color: var(--text);
+        font-family: "Bookman";
+    }
+
+    .container__chat {
+        align-self: center;
+        font-size: 2rem;
+        padding: 0.9rem 3.5rem 0.9rem 3.5rem;
+        width: fit-content;
+        margin-top: 6rem;
+    }
+}

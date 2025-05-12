@@ -1,0 +1,78 @@
+@font-face {
+    font-family: "Bookman";
+    src: url("../fonts/Bookman/bookmanoldstyle.ttf")
+      format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+  font-family: "RobotoMedium";
+  src: url("../fonts/Roboto/Roboto-Light.ttf") format("truetype");
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+* {
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:' Georgia, 'Times New Roman', Times, serif';
+  --text: #0f2346;
+  --white-text: #bcc0c3;
+  --orange-accent: #cc5722;
+  --blue-accent: #0f2346;
+  --grey-accent: #657996;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+li,
+details summary {
+  list-style-type: none;
+}
+
+button {
+  border-style: solid;
+}
+
+a {
+  text-decoration: none;
+}
+
+.button--orange, .button--blue {
+  border-radius: 6rem;
+  cursor: pointer;
+  font-family: 'Bookman';
+}
+
+.button--orange {
+  color: white;
+  background-color: var(--orange-accent);
+  border: 0.2rem solid var(--orange-accent);
+}
+
+.button--orange:hover {
+  color: var(--orange-accent);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.button--blue {
+  color: white;
+  background-color: var(--grey-accent);
+  border: 0.2rem solid var(--grey-accent);
+}
+
+.button--blue:hover {
+  color: var(--grey-accent);
+  background-color: transparent;
+  text-decoration: none;
+}

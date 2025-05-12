@@ -1,0 +1,46 @@
+.information {
+    padding: 2.0rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.information__left {
+    width: 35rem;
+    height: 35rem;
+    margin-right: 4rem;
+} 
+.information__header {
+    font-size: 3.6rem;
+    font-family: 'RobotoMedium';
+    font-weight: bold;
+    color: var(--blue-accent);
+    margin-bottom: 1rem;
+}
+.information__text {
+    font-size: 2rem;
+    font-family: 'Bookman';
+    color: var(--text);
+    line-height: 3rem;
+}
+a.information__button-chat {
+    display: block;
+    margin: 3rem 0 0 0;
+    text-align: center;
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; /
+}
+.information__button-chat {
+    font-size: 2rem;
+    width: 16.6rem;
+    height: 4.4rem;
+    margin-top: 3rem;
+}
+.divider {
+    background-color: #C4C4C4;
+    color: var(--blue-accent);
+    font-size: 2.4rem;
+    padding: 1rem;
+    font-family: 'RobotoMedium';
+    font-weight: bold;
+}

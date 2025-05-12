@@ -1,0 +1,44 @@
+@media (max-width: 1300px) {
+    .main__navigation {
+        max-width: 18rem;
+    }
+    .main__navigation-button {
+        padding: 0.5rem 2rem;
+        font-size: 1.2rem;
+    }
+    .profile__content-left {
+        max-width: 20rem;
+        margin: 0 2rem auto 0;
+    }
+    .profile__image {
+        max-width: 18rem;
+    }
+    .profile__form {
+        min-width: 33rem;
+    }
+    .profile__input {
+        font-size: 1.6rem;
+    }
+    .services__grid {
+        padding: 2rem 0;
+        gap: 1.5rem;
+    }
+    .services__content-right {
+        max-height: 20rem;
+    }
+    .services__title {
+        font-size: 1.6rem;
+    }
+    .services__description {
+        font-size: 1.2rem;
+    }
+    .services__content-left{
+        max-height: 20rem;
+    }
+}
+@media (max-width: 900px) {
+    .services__grid {
+        display: flex;
+        flex-direction: column;
+    }
+}

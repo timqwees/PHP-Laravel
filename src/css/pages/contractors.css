@@ -1,0 +1,56 @@
+p,button {
+    margin: 0;
+    font-size: 1.8rem;
+}
+h2, select {
+    font-size: 2rem;
+}
+main {
+    display: flex;
+    flex-direction: row;
+}
+.list {
+    display: flex;
+    flex-direction: column;
+    padding: 2.4rem;
+    gap: 1.5rem;
+}
+.contractor {
+    border: 1px solid #C4C4C4;
+}
+.contractor__header {
+    background-color: #C4C4C4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem;
+    font-family: 'RobotoMedium';
+    color: var(--blue-accent);
+}
+.contractor__info {
+    display: flex;
+    flex-direction: row;
+}
+.contractor__left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    padding: 2.0rem;
+    gap: 1.2rem;
+}
+.contractor__logo {
+    width: 15rem;
+    height: 15rem;
+}
+.contractor__right {
+    padding: 2.0rem;
+    font-family: 'Bookman';
+    color: var(--text);
+}
+.contractor__button {
+    padding: 1.0rem;
+    font-size: 1.6rem;
+    padding-left: 3.3rem;
+    padding-right: 3.3rem;
+}

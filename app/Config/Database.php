@@ -40,7 +40,7 @@ namespace App\Config;
 use PDO;
 use RuntimeException;
 use App\Models\Network\Network;
-class Database extends Network
+class Database
 {
     // Параметры подключения к базе данных
     private const DB_HOST = 's125.craft-hosting.ru';
@@ -81,7 +81,7 @@ class Database extends Network
                 return self::$instance;
             } catch (\PDOException $e) {
                 error_log("ошибка подключения к базе данных: " . $e->getMessage());
-                self::onRedirect('/');//redirect to main page
+                Network::onRedirect('/log-in.php');
                 throw new RuntimeException('Ошибка подключения к базе данных. Пожалуйста, проверьте настройки.');
             }
         }

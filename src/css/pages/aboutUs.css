@@ -1,0 +1,130 @@
+h1 {
+  margin: 0;
+}
+
+.hero {
+  margin-top: 3rem;
+  color: var(--blue-accent);
+}
+
+.hero__wrapper {
+  padding: 0 2rem 0 6rem;
+}
+
+.hero__title {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.hero__description {
+  margin-top: 2rem;
+  font-size: 2rem;
+}
+
+.advantages {
+  margin-top: 4rem;
+  color: var(--white-text); /* "белый текст" по цвету серый, ну окей (?)*/
+  background: linear-gradient(
+      90deg,
+      var(--blue-accent) 0%,
+      var(--blue-accent) 50%,
+      #0f2346a0 100%
+    ),
+    right url(../../../public/carving.png);
+  background-repeat: no-repeat;
+}
+
+.advantages__wrapper {
+  padding: 3rem 5rem 5rem 6rem;
+  margin: 0;
+  max-width: 50%;
+}
+
+.advantages__title {
+  font-size: 2.7rem;
+}
+
+.advantages__list {
+  margin-top: 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.advantages__item {
+  margin: 0;
+  display: flex;
+  gap: 4rem;
+}
+
+.advantages__item::before {
+  content: url(../../../public/marker_icon.svg);
+}
+
+.advantages__text {
+  font-size: 1.8rem;
+}
+
+.slogan {
+  margin-top: 5.75rem;
+  padding: 0 3rem 0;
+}
+
+.slogan__description {
+  font-size: 2.4rem;
+  text-align: center;
+  color: var(--blue-accent);
+  font-weight: 700;
+}
+
+footer {
+  margin-top: 5.85rem;
+}
+
+@media (max-width: 960px) {
+  .advantages {
+    background: var(--blue-accent);
+  }
+
+  .advantages__wrapper {
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    margin-top: 2rem;
+  }
+  .hero__title {
+    font-size: 3rem;
+  }
+
+  .hero__description {
+    margin-top: 1rem;
+    font-size: 1.6rem;
+  }
+
+  .advantages {
+    margin-top: 2rem;
+  }
+
+  .advantages__wrapper {
+    padding: 1.5rem 2rem;
+  }
+  .advantages__title {
+    font-size: 2rem;
+  }
+
+  .advantages__text {
+    font-size: 1.35rem;
+  }
+
+  .slogan {
+    margin-top: 2rem;
+  }
+
+  footer {
+    margin-top: 2rem;
+  }
+}

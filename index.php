@@ -33,12 +33,30 @@
  * @author TimQwees
  * @link https://github.com/TimQwees/Qwees_CorePro
  * 
- * 
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use App\Models\Network\Network;
+use App\Models\User\User;
+// use App\Models\Article\Article;
+// use App\Models\Network\Network;
 
-(new Network())->onRoute();
+// Проверяем авторизацию
+if (session_status() === PHP_SESSION_NONE) {
+ session_start();
+}
+
+// Инициализируем переменные
+$currentUser = null;
+
+// Если пользователь авторизован, получаем его данные
+if (isset($_SESSION['user']) && isset($_SESSION['user']['id'])) {
+ $userModel = new User();
+ if ($userModel->onSessionUser($_SESSION['user']['id'])) {
+  $currentUser = $userModel->getUser('id', $_SESSION['user']['id']);
+ }
+}
+
+//HTML
+include __DIR__ . '/viewHTML/index.html';
 ?>

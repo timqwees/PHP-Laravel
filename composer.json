@@ -1,8 +1,7 @@
 {
-    "name": "timqwees/qwees_corepro",
-    "description": "Qwees_CorePro: Ядро ваших веб-приложений. Этот PHP-фреймворк предоставляет прочную основу для создания любых проектов, от простых сайтов до сложных API. Надежный, расширяемый и готовый к любым задачам.",
+    "name": "timqwees/chat-app",
+    "description": "Chat application for Politech",
     "type": "project",
-    "version": "1.0.0",
     "require": {
         "php": ">=7.4",
         "ext-pdo": "*",
@@ -12,28 +11,5 @@
         "psr-4": {
             "App\\": "app/"
         }
-    },
-    "scripts": {
-        "version:patch": [
-            "php -r \"\\$composer = json_decode(file_get_contents('composer.json'), true); \\$version = explode('.', \\$composer['version']); \\$version[2]++; \\$composer['version'] = implode('.', \\$version); file_put_contents('composer.json', json_encode(\\$composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)); echo 'Version updated to ' . \\$composer['version'] . PHP_EOL;\"",
-            "git add composer.json",
-            "git commit -m \" chore: update version to v%version%\"",
-            "git tag -a v%version% -m \"Version v%version%\"",
-            "git push origin --tags"
-        ],
-        "version:minor": [
-            "php -r \"\\$composer = json_decode(file_get_contents('composer.json'), true); \\$version = explode('.', \\$composer['version']); \\$version[1]++; \\$version[2] = 0; \\$composer['version'] = implode('.', \\$version); file_put_contents('composer.json', json_encode(\\$composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)); echo 'Version updated to ' . \\$composer['version'] . PHP_EOL;\"",
-            "git add composer.json",
-            "git commit -m \" chore: update version to v%version%\"",
-            "git tag -a v%version% -m \"Version v%version%\"",
-            "git push origin --tags"
-        ],
-        "version:major": [
-            "php -r \"\\$composer = json_decode(file_get_contents('composer.json'), true); \\$version = explode('.', \\$composer['version']); \\$version[0]++; \\$version[1] = 0; \\$version[2] = 0; \\$composer['version'] = implode('.', \\$version); file_put_contents('composer.json', json_encode(\\$composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)); echo 'Version updated to ' . \\$composer['version'] . PHP_EOL;\"",
-            "git add composer.json",
-            "git commit -m \" chore: update version to v%version%\"",
-            "git tag -a v%version% -m \"Version v%version%\"",
-            "git push origin --tags"
-        ]
     }
-}
+} 

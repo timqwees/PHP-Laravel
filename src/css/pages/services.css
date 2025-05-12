@@ -1,0 +1,15 @@
+p,
+button {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+h2,
+select {
+    font-size: 2rem;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+}

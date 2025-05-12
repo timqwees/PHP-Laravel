@@ -1,0 +1,35 @@
+.filters {
+    display: flex;
+    flex-direction: column;
+    min-width: 40rem;
+    padding: 2.2rem;
+    gap: 3.0rem;
+    height: 100vh;
+    border-right: 0.1rem solid black;
+    margin: 0;
+}
+
+.filters__category {
+    width: 100%;
+    font-family: 'Bookman';
+}
+
+.filters__name {
+    margin-bottom: 1.0rem;
+    font-family: 'RobotoMedium';
+    color: var(--blue-accent);
+}
+
+.filters__select {
+    width: 100%;
+    border-radius: 1.3rem;
+    padding: 1.0rem;
+    background-color: #C4C4C4;
+    color: #657996;
+}
+
+.filters__button {
+    width: 15.0rem;
+    align-self: center;
+    padding: 1.0rem;
+}

@@ -38,21 +38,37 @@
 namespace App\Models\Article;
 
 use App\Config\Database;
-use App\Models\Network\Message;
 use App\Models\Network\Network;
 use PDO;
 
-class Article extends Network
+class Article
 {
+    /**
+     * @var [type]
+     */
     private static $db;
+    /**
+     * @var [type]
+     */
     private $verifyTable;
+    /**
+     * @var [type]
+     */
+    private $className = 'poster';
+    /**
+     * @var [type]
+     */
     private $network;
+    /**
+     * @var [type]
+     */
+    private $path_login = '/log-in.php';
 
     public function __construct()
     {
         self::$db = Database::getConnection();
         $this->network = new Network();
-        $this->verifyTable = Network::onTableCheck(self::$table_articles);
+        $this->verifyTable = Network::onTableCheck($this->className);
     }
     /**
      * @param string $title
@@ -65,13 +81,12 @@ class Article extends Network
     {
         try {
             $stmt = $this->network->QuaryRequest__Article['addArticle'];
-            if ($stmt->execute([$title, $content, $userId])) {//проблема с показом сооющения при обновлении сраниц
-                return self::$db->lastInsertId() && Message::set('success', 'Статья успешно создана') && Network::onRedirect(Network::$path_account) && true;
+            if ($stmt->execute([$title, $content, $userId])) {
+                return self::$db->lastInsertId();
             }
-            Message::set('error', 'Ошибка при создании статьи');
             return false;
         } catch (\PDOException $e) {
-            Message::set('error', 'Ошибка при создании статьи: ' . $e->getMessage());
+            error_log("Ошибка при создании статьи: " . $e->getMessage());
             return false;
         }
     }
@@ -91,20 +106,19 @@ class Article extends Network
 
             $stmt = $this->network->QuaryRequest__Article['removeArticle'];
             $result = $stmt->execute([$id, $userId]);
-            Message::set('success', 'Статья успешно удалена');
 
             if ($result) {
                 self::$db->commit();
                 return true;
             }
-            Message::set('error', 'Ошибка при удалении статьи');
-            self::$db->rollBack();//отмена транзакции
+
+            self::$db->rollBack();
             return false;
         } catch (\PDOException $e) {
-            if (self::$db->inTransaction()) {//если транзакция активна
+            if (self::$db->inTransaction()) {
                 self::$db->rollBack();
             }
-            Message::set('error', 'Ошибка при удалении статьи: ' . $e->getMessage());
+            error_log("Ошибка при удалении статьи: " . $e->getMessage());
             return false;
         }
     }
@@ -124,7 +138,7 @@ class Article extends Network
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             return $result ? $result : false;
         } catch (\PDOException $e) {
-            Message::set('error', 'Ошибка при получении статьи: ' . $e->getMessage());
+            error_log("Ошибка при получении статьи: " . $e->getMessage());
             return false;
         }
     }
@@ -139,7 +153,7 @@ class Article extends Network
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            Message::set('error', 'Ошибка при получении статей: ' . $e->getMessage());
+            error_log("Ошибка при получении статей: " . $e->getMessage());
             return false;
         }
     }
@@ -149,14 +163,14 @@ class Article extends Network
      * 
      * @return [type]
      */
-    public function getAllArticleById(int $user_index)
+    public function getAllArticleById($user_index)
     {
         try {
             $stmt = $this->network->QuaryRequest__Article['getAllArticleById'];
             $stmt->execute([$user_index]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            Message::set('error', 'Ошибка при получении статьи: ' . $e->getMessage());
+            error_log("Ошибка при получении статьи: " . $e->getMessage());
             return false;
         }
     }
@@ -164,14 +178,14 @@ class Article extends Network
     /**
      * @return [type]
      */
-    public function getListMyArticle(int $my_id)
+    public function getListMyArticle()
     {
         try {
             $stmt = $this->network->QuaryRequest__Article['getListMyArticle'];
-            $stmt->execute([$my_id]);
+            $stmt->execute([$_SESSION['user']['id']]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            Message::set('error', 'Ошибка при получении статей пользователя: ' . $e->getMessage());
+            error_log("Ошибка при получении статей пользователя: " . $e->getMessage());
             return false;
         }
     }
@@ -188,7 +202,7 @@ class Article extends Network
             $stmt->execute([$user_index, $article_index]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            Message::set('error', 'Ошибка при получении статей пользователя: ' . $e->getMessage());
+            error_log("Ошибка при получении статей пользователя: " . $e->getMessage());
             return false;
         }
     }
@@ -205,14 +219,9 @@ class Article extends Network
     {
         try {
             $stmt = $this->network->QuaryRequest__Article['onUpdateArticle'];
-            if ($stmt->execute([$title, $content, $articleId, $userId])) {
-                Message::set('success', 'Статья успешно обновлена');
-                return true;
-            }
-            Message::set('error', 'Ошибка при обновлении статьи');
-            return false;
+            return $stmt->execute([$title, $content, $articleId, $userId]);
         } catch (\PDOException $e) {
-            Message::set('error', 'Ошибка при обновлении статьи: ' . $e->getMessage());
+            error_log("Ошибка при обновлении статьи: " . $e->getMessage());
             return false;
         }
     }

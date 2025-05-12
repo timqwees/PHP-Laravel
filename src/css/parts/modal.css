@@ -1,0 +1,196 @@
+@font-face {
+    font-family: "Bookman";
+    src: url("../fonts/Bookman/bookmanoldstyle.ttf")
+      format("truetype");
+}
+@font-face {
+    font-family: "RobotoMedium";
+    src: url("../fonts/Roboto/Roboto-Light.ttf") format("truetype");
+}
+:root {
+    font-size: 62.5%;
+}
+* {
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 400;
+    --text: #0f2346;
+    --white-text: #bcc0c3;
+    --orange-accent: #cc5722;
+    --blue-accent: #0f2346;
+    --grey-accent: #657996;
+    --grey-background-modal: #E9E9E9;
+    --blue-accent-link: #0078CE;
+}
+button:hover, input[type="radio"]:hover, input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+main {
+    padding: 5rem 7rem;
+    border-radius: 7.7rem;
+    margin: auto;
+    max-width: 85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+h2 {
+    font-family: "RobotoMedium";
+    color: var(--text);
+    font-size: 4.5rem;
+    text-align: center;
+    margin: 0 0 5rem 0;
+}
+.code h2 {
+    margin: 0;
+}
+.authorization::backdrop, .registration::backdrop, .code::backdrop {
+    background-color:  rgba(0, 0, 0, 0.3);
+}
+.registration__form, .authorization__form {
+    min-width: 30rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+    max-width: 60rem;
+    width: 100%;
+}
+.registration__form input, .authorization__form input {
+    padding: 1.3rem 4rem;
+    border: 0.1rem solid var(--text);
+    border-radius: 5rem;
+    font-family: "RobotoMedium";
+    color: var(--text);
+    font-size: 2.4rem;
+}
+.registration__form input::placeholder, .authorization__form input::placeholder, .code__buttons input::placeholder {
+    font-family: "RobotoMedium";
+    color: var(--text);
+    font-size: 2.4rem;
+}
+.registration__choose_role {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.role__performer, .role__customer, .authorization__remember-password {
+    margin: 0;
+    font-family: "RobotoMedium";
+    color: var(--text);
+    font-size: 2.2rem;
+}
+.role__performer input, .role__customer input, .authorization__remember-password input {
+    position: relative;
+    top: 0.4rem;
+    width: 2.3rem;
+    height: 2.3rem;
+}
+.registration__text {
+    margin: 3rem 0 1.5rem 0;
+    font-family: "RobotoMedium";
+    color: var(--text);
+    font-size: 1.8rem;
+    text-align: center;
+    
+}
+.registration__text_link {
+    color: var(--blue-accent-link);
+}
+.registration__registrate, .authorization__authorizate {
+    margin: 2rem auto 0 auto;
+    max-width: 33rem;
+    min-width: 25rem;
+    background-color: var(--text);
+    border-radius: 1.3rem;
+    font-size: 3rem;
+    font-family: "RobotoMedium";
+    color: white;
+    padding: 1.2rem 1.7rem;
+    text-align: center;
+}
+.registration__authorization {
+    max-width: 27rem;
+    margin: 3rem 0 0 0;
+    align-self: flex-end;
+    border: 0;
+    color: var(--blue-accent);
+    font-size: 2.4rem;
+    font-family: "RobotoMedium";
+    background-color: inherit;
+}
+.authorization__buttons {
+    min-width: 30rem;
+    width: 100%;
+    max-width: 60rem;
+    margin: 3rem auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: var(--blue-accent);
+    font-size: 2.4rem;
+    font-family: "RobotoMedium";
+}
+.authorization__buttons a {
+    border: 0;
+    background-color: inherit;
+    color: var(--blue-accent);
+    margin: 0;
+    margin-top: 3rem;
+}
+.code__desc {
+    color: #657996;
+    text-align: center;
+    font-size: 2.2rem;
+    font-family: "RobotoMedium";
+    margin: 1rem 0 3rem 0;
+}
+.code-inputs {
+    max-width: 40rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(3rem, 9.4rem));
+    gap: 1rem;
+}
+.code-inputs input {
+    min-height: 9rem;
+    border: 0.2rem solid var(--blue-accent);
+    padding: 2rem;
+    border-radius: 2.5rem;
+    text-align: center;
+    font-size: 3rem;
+    font-family: "RobotoMedium";
+}
+.code__buttons {
+    margin: 5rem auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: center;
+}
+.code__buttons button {
+    min-width: 22rem;
+    padding: 1.3rem 2.6rem;
+    text-align: center;
+    font-size: 2.8rem;
+    font-family: "RobotoMedium";
+    border-radius: 1.3rem;
+    border: 0;
+}
+.code__cancel {
+    background-color: #CBD0D3;
+    color: var(--blue-accent);
+}
+.code__confirm {
+    background-color: var(--blue-accent);
+    color: white;
+}
+.code__back-btn {
+    position: absolute;
+    top: 2rem;
+    border: 0;
+    font-size: 5rem;
+    background-color: inherit;
+}

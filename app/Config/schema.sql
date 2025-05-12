@@ -1,5 +1,5 @@
 -- Create users table if it doesn't exist
-CREATE TABLE IF NOT EXISTS `users_php` (
+CREATE TABLE IF NOT EXISTS `users` (
             id INT AUTO_INCREMENT PRIMARY KEY,
             mail varchar(50) NOT NULL,
             username varchar(50) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `users_php` (
             session VARCHAR(255) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `articles` (
+CREATE TABLE IF NOT EXISTS `posters` (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,

@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'timqwees/qwees_corepro',
+        'name' => 'timqwees/chat-app',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
         'reference' => '660bc92276aebe71daf9f52c21beb1765eb524c5',
@@ -10,7 +10,7 @@
         'dev' => true,
     ),
     'versions' => array(
-        'timqwees/qwees_corepro' => array(
+        'timqwees/chat-app' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
             'reference' => '660bc92276aebe71daf9f52c21beb1765eb524c5',

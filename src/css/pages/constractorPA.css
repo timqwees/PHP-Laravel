@@ -1,0 +1,218 @@
+@font-face {
+    font-family: "Bookman";
+    src: url("../fonts/Bookman/bookmanoldstyle.ttf")
+      format("truetype");
+  }
+  @font-face {
+    font-family: "RobotoMedium";
+    src: url("../fonts/Roboto/Roboto-Light.ttf") format("truetype");
+  }
+* {
+    font-weight: 400;
+    --text: #0f2346;
+    --white-text: #bcc0c3;
+    --orange-accent: #cc5722;
+    --blue-accent: #0f2346;
+    --grey-accent: #657996;
+  }
+button:hover {
+    cursor: pointer;
+}
+.header__source {
+    padding: 1.5rem 2.5rem;
+    background-color: var(--blue-accent);
+    color: white;
+    font-size: 1.6rem;
+    font-family: "RobotoMedium";
+}
+.main__wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    margin: 0;
+}
+.main__navigation {
+    margin: 0;
+    padding: 5rem 2rem;
+}
+.main__navigation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.main__navigation-item {
+    width: 100%;
+    margin: 0;
+}
+.main__navigation-button{
+    border-width: 1px;
+    border-color: white;
+    background-color: inherit;
+    color: var(--text);
+    font-size: 2.0rem;
+    padding: 0.5rem 5rem;
+    border-radius: 2rem;
+    font-family: "RobotoMedium";
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    width: 100%;
+}
+.main__navigation-button:hover {
+    border: 1px solid #0f2346;
+    border-radius: 2rem;
+}
+.main__navigation-button:active, .main__navigation-button:focus {
+    border: 1px solid #0f2346;
+    border-radius: 2rem;
+    background-color: #C4C4C4;
+}
+.main__navigation-item-exit {
+    margin-top: 3rem;
+}
+.main__wrapper section {
+    margin: 0;
+    width: 100%;
+    padding: 5rem 3rem;
+}
+.profile__wrapper {
+    max-width: 120rem;
+    display: flex;
+    flex-direction: column;
+    gap: 7rem;
+    margin: auto;
+}
+.profile__container {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+}
+.profile__content-left {
+    max-width: 28rem;
+    position: relative;
+    border: 3px dashed var(--blue-accent);
+    margin: 0 5rem auto 5rem;
+    background-color: #F5F5F5;
+    padding: 0 0.5rem;
+    border-radius: 3rem;
+}
+.profile__image {
+    position: relative;
+    bottom: 2rem;
+    overflow: hidden;
+}
+.profile__image-upload {
+    border: 0;
+    background-color: inherit;
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    background-color: var(--blue-accent);
+    border-radius: 4rem;
+    padding: 1.2rem;
+}
+.profile__image-upload-clip {
+    max-width: 3rem;
+    max-height: 3rem;
+}
+
+.profile__content-right {
+    margin: 0;
+    width: 100%;
+}
+.profile__form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-width: 60rem;
+    max-width: 60rem;
+    width: 100%;
+    margin: 0 auto;
+}
+.profile__input {
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--orange-accent);
+    font-size: 2rem;
+    color: var(--text);
+}
+.profile__text {
+    position: relative;
+    top: -3rem;
+    font-size: 1.4rem;
+    color: #BCC0C3;
+    margin: 0 0 0 auto;
+}
+.profile__text::before{
+    position: relative;
+    top: 1rem;
+    content: "*";
+    font-size: 3.2rem;
+    color: #B02525;
+}
+.profile__button, .services__button {
+    margin: 0 auto;
+    max-width: 35rem;
+    padding: 1.5rem 3rem;
+    font-size: 2.4rem;
+}
+.services__wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2rem;
+    width: 100%;
+}
+.requests__container {
+    border: 0;
+    flex-direction: column;
+    gap: 4rem;
+    padding: 0;
+    width: 100%;
+}
+.requests__content-upper {
+    text-align: start;
+    display: flex;
+    flex-direction: row;
+    gap: 6rem;
+    margin-bottom: 4.0rem;
+}
+.requests__button {
+    margin: 0;
+    border: 0;
+    color: #7D92A1;
+    font-size: 2rem;
+    background-color: inherit;
+    cursor: pointer;
+}
+.requests__button:active, .requests__button:hover {
+    color: #0f2346;
+}
+.requests__content-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+}
+.requests__block {
+    border: 1px solid #CC5722;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.requests__title-block {
+    font-family: "RobotoMedium";
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--text);
+    margin: 0;
+}
+.requests__description {
+    margin: 0;
+    font-size: 1.6rem;
+    color: var(--text);
+}

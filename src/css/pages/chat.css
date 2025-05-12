@@ -1,0 +1,109 @@
+
+:root {
+    font-size: 62.5%;
+}
+* {
+    --dark-grey: #BCC0C3;
+    --grey: #e4e7e9;
+    --grey-text: #657996;
+    --text: #0F2346;
+}
+main {
+    padding: 2rem 3rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+.chats__wrapper {
+    padding: 2.3rem 3.3rem;
+    background-color: var(--grey);
+    display: flex;
+    flex-direction: column;
+    gap: 7.5rem;
+    max-width: 60rem;
+    border: 2px solid var(--dark-grey);
+    border-radius: 0.5rem;
+    margin: 0 5rem 0 0;
+    min-width: 55rem;
+}
+.search_container {
+    margin: 0;
+    position: relative;
+}
+.search {
+    width: 100%;
+    background-color: var(--dark-grey);
+    outline: none;
+    color: var(--text);
+    padding: 2.3rem 3.7rem;
+    border: 0 solid black;
+    border-radius: 2rem;
+    font-size: 2rem;
+}
+.search_img {
+    position: absolute;
+    right: 2rem;
+    top: 1.5rem;
+}
+.chats__container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0;
+}
+.message__wrapper {
+    padding: 1.5rem;
+    border-radius: 2rem;
+    color: var(--text);
+    background-color: var(--dark-grey);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    position: relative;
+}
+.message {
+    margin: 0;
+}
+.message__title {
+    font-size: 1.8rem;
+    color: var(--text);
+}
+.message__desc {
+    font-size: 1.6rem;
+    color: var(--grey-text);
+}
+.message__time {
+    color: var(--grey-text);
+    font-size: 1.4rem;
+    position: absolute;
+    right: 3.6rem;
+    bottom: 1rem;
+}
+.message__logo {
+    margin: 0 2.5rem 0 0 ;
+}
+.messages__filter {
+    margin: 0;
+    max-height: 21.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 3rem 4rem;
+    right: 10rem;
+    top: 1.5rem;
+    background-color: var(--dark-grey);
+    border-radius: 2rem;
+}
+.messeges__current_filter {
+    text-align: start;
+    border: none;
+    background-color: inherit;
+    color: white;
+    padding: 1.3rem 2.2rem;
+    font-size: 1.6rem;
+    outline: none;
+}
+.messeges__current_filter:active, .messeges__current_filter:focus, .messeges__current_filter:hover {
+    background-color: var(--grey-text);
+    border-radius: 2rem;
+}

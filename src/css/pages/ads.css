@@ -1,0 +1,88 @@
+@font-face {
+    font-family: "Bookman";
+    src: url("../fonts/Bookman/bookmanoldstyle.ttf")
+      format("truetype");
+  }
+  @font-face {
+    font-family: "RobotoMedium";
+    src: url("../fonts/Roboto/Roboto-Light.ttf") format("truetype");
+  }
+* {
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 400;
+    --text: #0f2346;
+    --white-text: #bcc0c3;
+    --orange-accent: #cc5722;
+    --blue-accent: #0f2346;
+    --grey-accent: #657996;
+  }
+main {
+    display: flex;
+    flex-direction: row;
+}
+
+h2,
+select {
+    font-size: 2rem;
+}
+
+p,
+button {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.list__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 3.4rem;
+    padding: 3.4rem 3rem;
+    margin: 0;
+}
+
+.list__ad {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    padding: 1.6rem 3rem;
+    justify-content: space-between;
+    width: 100%;
+    gap: 3rem;
+}
+
+.ad__main_part {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 0;
+}
+
+.ad__img {
+    margin: 0;
+}
+
+.ad__author {
+    width: 11rem;
+    text-align: center;
+}
+
+.ad__description {
+    font-size: 1.7rem;
+}
+
+.ad__buttons_container {
+    justify-self: flex-end;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.detail,
+.take {
+    padding: 0.9rem 3.2rem;
+}
